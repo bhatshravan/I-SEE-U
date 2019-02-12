@@ -24,5 +24,8 @@
     "express": "^4.16.4",
     "mongoose": "^5.4.11",
     "nodemon": "^1.18.10"
+  },
+  "devDependencies": {
+    "node-media-server": "^1.4.12"
   }
 }

@@ -1,2 +1,24 @@
 Video streamer -> https://github.com/video-dev/hls.js/
 			      https://github.com/videojs/http-streaming
+			      https://github.com/illuspas/Node-Media-Server
+			      
+			      
+RTMP TO FLV streaming from file			     
+ffmpeg -re -i INPUT_FILE_NAME -c:v libx264 -preset superfast -tune zerolatency -c:a aac -ar 44100 -f flv rtmp://localhost/live/STREAM_NAME
+
+VBS Streaming options
+HTTP Live Streaming -> Developed by apple, needs to have manifest .m3u8 and also needs H.264 codec
+
+Idea->
+1. Capture all content over the webcam to an ffmpeg stream as and when required after user authorization, Spawn new thread for each viewer then close it once he leaves the stream.
+
+ffmpeg -f v4l2 -framerate 25 -video_size 640x480 -i /dev/video0 output.mkv
+
+2. Stream this over http after converting to flv using ffmpeg again
+ffmpeg -re -i INPUT_FILE_NAME -c:v libx264 -preset superfast -tune zerolatency -c:a aac -ar 44100 -f flv rtmp://localhost/live/STREAM_NAME
+
+
+3. Now use DASH or HLS to encode this to a video player, play this after authorization.
+Refer to test.html or test2.html for exampless
+
+4. Use web client to act as an additional dashboard and use it to act as notes for the doctor, live chat or get well messages etc.
