@@ -1,0 +1,2 @@
+Video streamer -> https://github.com/video-dev/hls.js/
+			      https://github.com/videojs/http-streaming
