@@ -1,10 +1,18 @@
 Video streamer -> https://github.com/video-dev/hls.js/
 			      https://github.com/videojs/http-streaming
 			      https://github.com/illuspas/Node-Media-Server
+			      https://github.com/Bilibili/flv.js/
 			      
 			      
 RTMP TO FLV streaming from file			     
 ffmpeg -re -i INPUT_FILE_NAME -c:v libx264 -preset superfast -tune zerolatency -c:a aac -ar 44100 -f flv rtmp://localhost/live/STREAM_NAME
+
+ffmpeg -i input.mp4 -profile:v baseline -level 3.0 -s 640x360 -start_number 0 -hls_time 10 -hls_list_size 0 -f hls index.m3u8
+
+
+
+
+
 
 VBS Streaming options
 HTTP Live Streaming -> Developed by apple, needs to have manifest .m3u8 and also needs H.264 codec
@@ -22,3 +30,8 @@ ffmpeg -re -i INPUT_FILE_NAME -c:v libx264 -preset superfast -tune zerolatency -
 Refer to test.html or test2.html for exampless
 
 4. Use web client to act as an additional dashboard and use it to act as notes for the doctor, live chat or get well messages etc.
+
+
+
+To.Do ->
+Merge the above 2 ffmpeg scripts

@@ -7,6 +7,7 @@ yarn-error.log*
 
 #Ignore sample video
 sample.mkv
+sample.mp4
 
 # Runtime data
 pids

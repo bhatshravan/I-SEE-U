@@ -27,5 +27,8 @@
   },
   "devDependencies": {
     "node-media-server": "^1.4.12"
+  },
+  "scripts":{
+    "start": "nodemon app.js"
   }
 }
