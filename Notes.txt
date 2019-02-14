@@ -12,8 +12,8 @@ ffmpeg -i input.mp4 -profile:v baseline -level 3.0 -s 640x360 -start_number 0 -h
 
 ffmpeg -re -thread_queue_size 512 -hwaccel auto -i sample.mp4 \
  -c:v libx264 -pix_fmt yuv420p -profile:v baseline -preset ultrafast -c:a aac -ar 11025 -s 640x360 -f flv rtmp://localhost/live/st_low \
- -c:v libx264 -pix_fmt yuv420p -profile:v baseline -preset ultrafast -c:a aac -ar 11025 -s 640x480 -f flv rtmp://localhost/live/STREAM_NAME/st_med \
- -c:v libx264 -pix_fmt yuv420p -profile:v baseline -preset ultrafast -c:a aac -ar 11025 -s 1280x720 -f flv rtmp://localhost/live/STREAM_NAME/st_high \
+ -c:v libx264 -pix_fmt yuv420p -profile:v baseline -preset ultrafast -c:a aac -ar 11025 -s 842x480 -f flv rtmp://localhost/live/st_med \
+ -c:v libx264 -pix_fmt yuv420p -profile:v baseline -preset ultrafast -c:a aac -ar 11025 -s 1280x720 -f flv rtmp://localhost/live/st_high \
 
 
 
@@ -39,3 +39,8 @@ Refer to test.html or test2.html for exampless
 
 To.Do ->
 Merge the above 2 ffmpeg scripts
+
+
+
+
+https://docs.peer5.com/guides/production-ready-hls-vod/
