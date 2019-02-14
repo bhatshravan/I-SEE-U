@@ -29,3 +29,5 @@ const config = {
  
 var nms = new NodeMediaServer(config)
 nms.run();
+//ak1 -> aviation
+//pk2 minsitry of power
