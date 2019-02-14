@@ -5,11 +5,15 @@ Video streamer -> https://github.com/video-dev/hls.js/
 			      
 			      
 RTMP TO FLV streaming from file			     
-ffmpeg -re -i INPUT_FILE_NAME -c:v libx264 -preset superfast -tune zerolatency -c:a aac -ar 44100 -f flv rtmp://localhost/live/STREAM_NAME
+ffmpeg -re -thread_queue_size 512 -hwaccel auto -i sample.mp4 -c:v libx264 -preset ultrafast -c:a aac -ar 10000 -f flv -r 60.0 rtmp://localhost/live/STREAM_NAME
 
 ffmpeg -i input.mp4 -profile:v baseline -level 3.0 -s 640x360 -start_number 0 -hls_time 10 -hls_list_size 0 -f hls index.m3u8
 
 
+ffmpeg -re -thread_queue_size 512 -hwaccel auto -i sample.mp4 \
+ -c:v libx264 -pix_fmt yuv420p -profile:v baseline -preset ultrafast -c:a aac -ar 11025 -s 640x360 -f flv rtmp://localhost/live/st_low \
+ -c:v libx264 -pix_fmt yuv420p -profile:v baseline -preset ultrafast -c:a aac -ar 11025 -s 640x480 -f flv rtmp://localhost/live/STREAM_NAME/st_med \
+ -c:v libx264 -pix_fmt yuv420p -profile:v baseline -preset ultrafast -c:a aac -ar 11025 -s 1280x720 -f flv rtmp://localhost/live/STREAM_NAME/st_high \
 
 
 

@@ -20,12 +20,13 @@
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "mongoose": "^5.4.11",
+    "node-onvif": "^0.1.7",
     "nodemon": "^1.18.10"
   },
   "devDependencies": {
     "node-media-server": "^1.4.12"
   },
-  "scripts":{
+  "scripts": {
     "start": "nodemon app.js"
   }
 }
