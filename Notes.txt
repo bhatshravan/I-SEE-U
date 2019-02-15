@@ -2,9 +2,9 @@ Video streamer -> https://github.com/video-dev/hls.js/
 			      https://github.com/videojs/http-streaming
 			      https://github.com/illuspas/Node-Media-Server
 			      https://github.com/Bilibili/flv.js/
-			      
-			      
-RTMP TO FLV streaming from file			     
+
+
+RTMP TO FLV streaming from file
 ffmpeg -re -thread_queue_size 512 -hwaccel auto -i sample.mp4 -c:v libx264 -preset ultrafast -c:a aac -ar 10000 -f flv -r 60.0 rtmp://localhost/live/STREAM_NAME
 
 ffmpeg -i input.mp4 -profile:v baseline -level 3.0 -s 640x360 -start_number 0 -hls_time 10 -hls_list_size 0 -f hls index.m3u8
@@ -40,6 +40,11 @@ Refer to test.html or test2.html for exampless
 To.Do ->
 Merge the above 2 ffmpeg scripts
 
+
+Mongodb
+use icu
+db.users.find()
+db.dropDatabase()
 
 
 

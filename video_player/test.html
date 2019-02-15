@@ -6,9 +6,6 @@
 <body>
 <script src="https://cdn.bootcss.com/flv.js/1.5.0/flv.min.js"></script>
 <video id="videoElement"></video>
-hello
-<video id="videoElement2"></video>
-<video id="videoElement3"></video>
 <script>
 	if (flvjs.isSupported()) {
 		var videoElement = document.getElementById('videoElement');
@@ -19,24 +16,6 @@ hello
 		flvPlayer.attachMediaElement(videoElement);
 		flvPlayer.load();
 		flvPlayer.play();
-
-		var videoElement2 = document.getElementById('videoElement2');
-		var flvPlayer2 = flvjs.createPlayer({
-			type: 'flv',
-			url: 'http://10.0.15.152:8000/live/st_med.flv'
-		});
-		flvPlayer2.attachMediaElement(videoElement2);
-		flvPlayer2.load();
-		flvPlayer2.play();
-
-		var videoElement3 = document.getElementById('videoElement3');
-		var flvPlayer3 = flvjs.createPlayer({
-			type: 'flv',
-			url: 'http://10.0.15.152:8000/live/st_high.flv'
-		});
-		flvPlayer3.attachMediaElement(videoElement3);
-		flvPlayer3.load();
-		flvPlayer3.play();
 	}
 </script>
 </body>
