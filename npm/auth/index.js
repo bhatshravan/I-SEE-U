@@ -30,8 +30,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // serve static files from template
-//app.use('/vendor',express.static('auth/views/DoubleHelix/vendor'));
-//app.use('/js',express.static('auth/views/DoubleHelix/js'));
 app.use(express.static('auth/views/DoubleHelix'));
 
 //Set up a render engine which is ejs
