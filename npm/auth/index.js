@@ -9,6 +9,7 @@ const app = express();
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const path = require('path');
+const cookieParser = require('cookie-parser');
 
 //Connect to mongodb
 const MongoDb = process.env.MONGODB_URI || config.mongodb_url;
@@ -24,7 +25,7 @@ console.log('Successfully connected to MongoDb on url: '+config.mongodb_url);
 app.use(cors());
 app.options('*',cors());
 
-//BodyParser and logger
+//BodyParser and logger with morgan
 app.use(logger('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -36,6 +37,10 @@ app.use(express.static('auth/views/DoubleHelix'));
 app.engine('html', require('ejs').renderFile);
 app.set('views', 'auth/views');
 app.set('view engine', 'ejs');
+
+//Set up session and cookie parser
+app.use(cookieParser());
+app.use(session({secret: config.session_secret }));
 
 //Enable cors
 app.use((req, res, next) => {

@@ -50,7 +50,7 @@ module.exports = app => {
 }
 
 function requiresLogin(err, req, res, next) {
-    if (req.session && req.session.userId2)
+    if (req.session && req.session.userId)
     {
         return next();
     }

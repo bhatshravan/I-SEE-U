@@ -48,7 +48,8 @@ exports.authenticate = (req,res) => {
             {
                 console.log(user);
                 var test2 = user.email;
-                console.log(test2);
+                req.session.userId = user.email;
+
                 return res.status(200).json({ success:true , msg: "User logged in"})
             }
         });
