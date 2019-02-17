@@ -4,6 +4,19 @@ exports.login = (req,res) => {
     res.send("Welcome to login page");
 };
 
+exports.logout = (req, res, next) => {
+    if(req.session) {
+        req.session.destroy( (err) => {
+            if(err) {
+                sendRep('Logout error',err,req,res);
+            }
+            else {
+                return res.redirect('/login.html');
+            }
+        });
+    }
+}
+
 
 exports.create = (req,res) => {
     res.status(200);
@@ -15,7 +28,7 @@ exports.create = (req,res) => {
             email: req.body.email,
             password: req.body.password
         }
-        logs(UserData);
+        logs(UserData+' registered');
         //
         User.create(UserData, function(err, user){
             if(err) {
@@ -38,38 +51,42 @@ exports.authenticate = (req,res) => {
     {
         var user = req.body.email;
         var passwd = req.body.password;
-        logs('User: '+user+' successfully logged in at:'+Date.now());
+        logs(user+' tried to log in');
         User.authenticate(user ,passwd, (err, user) => {
             if(err || !user) {
                 var error = new Error('Wrong email or password\n'+err);
-                return sendRep(error, error, req,res);
+                return sendRep("Wrong email or password", error, req,res);
             }
             else
             {
-                console.log(user);
+                //console.log(user);
                 var test2 = user.email;
-                req.session.userId = user.email;
-
-                return res.status(200).json({ success:true , msg: "User logged in"})
+                req.session.userEmail = user.email;
+                req.session.userId = user._id;
+                logs(user._id+' successfully logged in');
+                res.redirect('/index');
+                // return res.status(200).json({ success:true , msg: "User logged in"})
             }
         });
     }
     else
     {
-        sendRep('Please enter user and reject');
+        var error = 'Please enter username and password';
+        logs(req.body.email);
+        sendRep(error,error,req,res);
     }
 };
 
 function sendRep(data,err,req,res)
 {
     //console.log('\n\n['+req.method+']'+req.url);
-    console.log(err);
+    //console.log(err);
     if(err)
     {
-        res.status(500).json({ err: data });
-        console.log(err);
+        res.status(500).json({ success:false, err: data });
+        //console.log(err);
     }
 }
 function logs(data){
-    console.log(data);
+    console.log('[]: '+data);
 }

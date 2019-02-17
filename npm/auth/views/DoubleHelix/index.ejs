@@ -17,7 +17,7 @@
 
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
-  
+
 <script src="https://www.gstatic.com/firebasejs/5.8.2/firebase.js"></script>
 <script>
   // Initialize Firebase
@@ -202,10 +202,10 @@
               </div>
             </li>
 
-     
 
 
-           
+
+
 
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
@@ -584,42 +584,33 @@
   <script src="js/demo/chart-area-demo.js"></script>
   <script src="js/demo/chart-pie-demo.js"></script>
   <script>
-    
+
 
     function updateName(){
-      var user = firebase.auth().currentUser;
-        user.updateProfile({
-          displayName: "Kushal",
-          //kushal - https://i.pinimg.com/280x280_RS/1d/17/17/1d171709647ab9253e61a2b6dab0791b.jpg
-          //shreyas - https://avatars1.githubusercontent.com/u/22915534?s=460&v=4
-          photoURL: "https://i.pinimg.com/280x280_RS/1d/17/17/1d171709647ab9253e61a2b6dab0791b.jpg"
-        }).then(function() {
-          // Update successful.
-        }).catch(function(error) {
-          // An error happened.
-        });
+      // var user = firebase.auth().currentUser;
+      //   user.updateProfile({
+      //     displayName: "Kushal",
+      //     //kushal - https://i.pinimg.com/280x280_RS/1d/17/17/1d171709647ab9253e61a2b6dab0791b.jpg
+      //     //shreyas - https://avatars1.githubusercontent.com/u/22915534?s=460&v=4
+      //     photoURL: "https://i.pinimg.com/280x280_RS/1d/17/17/1d171709647ab9253e61a2b6dab0791b.jpg"
+      //   }).then(function() {
+      //     // Update successful.
+      //   }).catch(function(error) {
+      //     // An error happened.
+      //   });
     }
     function seeName(){
-      var user = firebase.auth().currentUser;
-      alert(user.displayName+user.photoURL  );   
+      var displayName ='Hello world';
+      var photoURL = 'https://pbs.twimg.com/profile_images/1002272769352978433/9S4QWSR0_400x400.jpg';
+      alert(displayName+user.photoURL  );
     }
 
+document.getElementById('userName').innerHTML = '<%= userEmail%>';
+document.getElementById('userPhoto').src='https://pbs.twimg.com/profile_images/1002272769352978433/9S4QWSR0_400x400.jpg';
 
-    firebase.auth().onAuthStateChanged(firebaseUser => {
-    if(firebaseUser){
-        //window.location = 'index.html';
-        //firebase.auth().signOut();
-        var user = firebase.auth().currentUser;
-        document.getElementById('userName').innerHTML = user.displayName;
-        document.getElementById('userPhoto').src=user.photoURL;
-    }else{
-        window.location = 'login.html';
-        document.getElementById('loginerror').innerHTML='';
-    }
-    });
   function logoutFromDashboard() {
     firebase.auth().signOut();
-    window.location = 'login.html';
+    window.location = '/login.html';
   }
   </script>
 </body>

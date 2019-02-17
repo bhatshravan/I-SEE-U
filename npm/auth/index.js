@@ -10,15 +10,19 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const path = require('path');
 const cookieParser = require('cookie-parser');
+const multer = require('multer');
+var upload = multer();
 
 //Connect to mongodb
 const MongoDb = process.env.MONGODB_URI || config.mongodb_url;
-mongoose.connect(MongoDb, { useNewUrlParser: true });
+mongoose.connect(MongoDb, { useCreateIndex: true, useNewUrlParser: true });
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;
 db.on('error',console.error.bind(console, 'MongoDb connection error'));
 
-console.log('Successfully connected to MongoDb on url: '+config.mongodb_url);
+
+console.log("\n\n----------\nLogging start with new starts\n----------\n");
+console.log('\MongoDB connected: '+config.mongodb_url);
 
 
 //Use CORS
@@ -27,8 +31,9 @@ app.options('*',cors());
 
 //BodyParser and logger with morgan
 app.use(logger('dev'));
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(upload.array());
 
 // serve static files from template
 app.use(express.static('auth/views/DoubleHelix'));
@@ -38,9 +43,27 @@ app.engine('html', require('ejs').renderFile);
 app.set('views', 'auth/views');
 app.set('view engine', 'ejs');
 
-//Set up session and cookie parser
+//Set up cookie parser
 app.use(cookieParser());
-app.use(session({secret: config.session_secret }));
+
+//Add sessions
+app.use(session({
+    secret: config.secret,
+    resave: true,
+    saveUninitialized: false,
+    store: new MongoStore({
+      mongooseConnection: db
+    })
+}));
+
+//Log all body requests
+app.use(function (req, res, next) {
+  console.log('[Body request]: '+req.body); // populated!
+
+  res.locals.userEmail = req.session.userEmail;
+  res.locals.userId = req.session.userId;
+  next();
+})
 
 //Enable cors
 app.use((req, res, next) => {
@@ -57,18 +80,7 @@ app.use((req, res, next) => {
 //Start router
 router(app);
 
-//Add sessions
-app.use(session({
-    secret: config.secret,
-    resave: true,
-    saveUnintialized: false,
-    store: new MongoStore({
-      mongooseConnection: db
-    })
-}))
-
 //Start server
 app.listen(8081, function(){
-  console.log("Started server at: "+config.PORT);
-  console.log("----------\nLogging start\n----------\n\n");
+    console.log("Started server at: "+config.PORT+"  \n\n");
 });
