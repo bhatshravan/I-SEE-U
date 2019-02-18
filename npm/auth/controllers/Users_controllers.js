@@ -1,8 +1,4 @@
 const User = require('../models/User');
-exports.login = (req,res) => {
-    res.status(200);
-    res.send("Welcome to login page");
-};
 
 exports.logout = (req, res, next) => {
     if(req.session) {
@@ -44,6 +40,10 @@ exports.create = (req,res) => {
         return res.status(403).json({ success: false, error: 'Error occured, no data given' });
     }
 };
+
+exports.register = (req,res) => {
+    res.render('DoubleHelix/register')
+}
 
 exports.authenticate = (req,res) => {
 

@@ -4,8 +4,8 @@ const User_controller = require('../controllers/Users_controllers');
 const Stream_controller = require('../controllers/Stream_controller');
 const Admin_controller = require('../controllers/Admin_controller');
 const authError = (err, req, res, next) => {
-    // return res.status(401).json({ success: false, message: 'unauthorized' });
-    return res.redirect('/login.html');
+     return res.status(401).json({ success: false, message: 'unauthorized' });
+    //return res.redirect('/login.html');
 };
 
 
@@ -17,12 +17,15 @@ module.exports = app => {
 
     ///Login page
     app.all('/' , (req,res) => {
-        res.render('index.ejs');
+        res.render('DoubleHelix/login');
+    });
+
+    app.get('/register', (req,res) => {
+        res.render('DoubleHelix/register')
     });
 
     //Users login page
     app.use('/Users',Users);
-    Users.get('/Login',User_controller.login);
     Users.post('/Register',User_controller.create);
     Users.post('/Login',User_controller.authenticate);
     Users.all('/Logout', User_controller.logout);
@@ -51,12 +54,15 @@ module.exports = app => {
 }
 
 function requiresLogin(err, req, res, next) {
+    console.log("Requires login");
     if (req.session && req.session.userId)
     {
+        console.log("test");
         return next();
     }
     else
     {
+        console.log("error");
         return next(err);
     }
 }
