@@ -36,6 +36,6 @@
   },
   "scripts": {
     "sts": "nodemon ./stream/app.js",
-    "start": "nodemon ./auth/index.js"
+    "start": "nodemon web/index.js"
   }
 }

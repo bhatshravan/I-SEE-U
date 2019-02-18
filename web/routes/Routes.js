@@ -21,7 +21,7 @@ module.exports = app => {
     });
 
     app.get('/register', (req,res) => {
-        res.render('register')
+        res.render('register');
     });
 
     //Users login page
@@ -42,8 +42,6 @@ module.exports = app => {
     ///Admin page
     // app.use('/Admin',Admin);
     app.use('/index',requiresLogin, Admin_controller.main, authError);
-    // router.get('/profile', mid.requiresLogin, function(req, res, next) {
-    // });
 
     //Error page
     app.get('*', (req,res) => {

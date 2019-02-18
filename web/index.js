@@ -36,11 +36,11 @@ app.use(bodyParser.json());
 app.use(upload.array());
 
 // serve static files from template
-app.use(express.static('views/public'));
+app.use('/public',express.static('web/views/public/'));
 
 //Set up a render engine which is ejs
 app.engine('html', require('ejs').renderFile);
-app.set('views', 'views');
+app.set('views', 'web/views');
 app.set('view engine', 'ejs');
 
 //Set up cookie parser
