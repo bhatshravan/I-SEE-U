@@ -28,11 +28,13 @@ module.exports = app => {
     app.use('/Users',Users);
     Users.post('/Register',User_controller.create);
     Users.post('/Login',User_controller.authenticate);
-    Users.all('/Logout', User_controller.logout);
+    //Users.all('/Logout', User_controller.logout);
 
     app.all('/Test', (req,res) => {
         res.redirect('/login.html');
     });
+
+    app.all('/Logout',User_controller.logout);
 
     ///Stream page
     app.use('/Stream',Stream);

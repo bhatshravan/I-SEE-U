@@ -7,7 +7,7 @@ exports.logout = (req, res, next) => {
                 sendRep('Logout error',err,req,res);
             }
             else {
-                return res.redirect('/login.html');
+                return res.redirect('/login');
             }
         });
     }
