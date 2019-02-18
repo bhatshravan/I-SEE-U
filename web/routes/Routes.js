@@ -17,11 +17,11 @@ module.exports = app => {
 
     ///Login page
     app.all('/' , (req,res) => {
-        res.render('DoubleHelix/login');
+        res.render('login');
     });
 
     app.get('/register', (req,res) => {
-        res.render('DoubleHelix/register')
+        res.render('register')
     });
 
     //Users login page
@@ -30,9 +30,6 @@ module.exports = app => {
     Users.post('/Login',User_controller.authenticate);
     //Users.all('/Logout', User_controller.logout);
 
-    app.all('/Test', (req,res) => {
-        res.redirect('/login.html');
-    });
 
     app.all('/Logout',User_controller.logout);
 

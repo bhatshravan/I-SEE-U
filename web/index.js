@@ -36,11 +36,11 @@ app.use(bodyParser.json());
 app.use(upload.array());
 
 // serve static files from template
-app.use(express.static('auth/views/DoubleHelix'));
+app.use(express.static('views/public'));
 
 //Set up a render engine which is ejs
 app.engine('html', require('ejs').renderFile);
-app.set('views', 'auth/views');
+app.set('views', 'views');
 app.set('view engine', 'ejs');
 
 //Set up cookie parser

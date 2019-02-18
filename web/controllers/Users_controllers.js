@@ -42,7 +42,7 @@ exports.create = (req,res) => {
 };
 
 exports.register = (req,res) => {
-    res.render('DoubleHelix/register')
+    res.render('/register')
 }
 
 exports.authenticate = (req,res) => {
