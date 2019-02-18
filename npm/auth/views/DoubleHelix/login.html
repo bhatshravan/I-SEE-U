@@ -18,68 +18,6 @@
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.css" rel="stylesheet">
 
-<script src="https://www.gstatic.com/firebasejs/5.8.2/firebase.js"></script>
-<script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyAiQjQaQnTyKV_4hXZspTxf0t-z0O9oAGE",
-    authDomain: "apollo-hospitals-16313.firebaseapp.com",
-    databaseURL: "https://apollo-hospitals-16313.firebaseio.com",
-    projectId: "apollo-hospitals-16313",
-    storageBucket: "",
-    messagingSenderId: "564779776944"
-  };
-  firebase.initializeApp(config);
-</script>
-
-
-  <script>
-   function toggleSignIn() {
-      if (firebase.auth().currentUser) {
-        firebase.auth().signOut();
-      } else {
-        var email = document.getElementById('exampleInputEmail').value;
-        var password = document.getElementById('exampleInputPassword').value;
-        firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          if (errorCode === 'auth/wrong-password') {
-            document.getElementById('loginerror').innerHTML="Wrong Password";
-          } else {
-            document.getElementById('loginerror').innerHTML=errorMessage;
-          }
-          console.log(error);
-        });
-      }
-    }
-    firebase.auth().onAuthStateChanged(firebaseUser => {
-    if(firebaseUser){
-        window.location = 'index.html';
-        //firebase.auth().signOut();
-    }else{
-        //window.location = 'login.html';
-        document.getElementById('loginerror').innerHTML='';
-    }
-    });
-    /*function initApp() {
-      firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {
-          var displayName = user.displayName;
-          var email = user.email;
-          //var emailVerified = user.emailVerified;
-          //var photoURL = user.photoURL;
-          //var isAnonymous = user.isAnonymous;
-          //var uid = user.uid;
-          //var providerData = user.providerData;
-          alert(displayName);
-          document.getElementById('loginerror').innerHTML='';
-        }});
-      }
-    window.onload = function() {
-      initApp();
-    };*/
-
-  </script>
 </head>
 
 <body class="bg-gradient-primary">
@@ -93,7 +31,6 @@
 
         <div class="card o-hidden border-0 shadow-lg my-5">
           <div class="card-body p-0">
-            <!-- Nested Row within Card Body -->
             <div class="row">
               <div class="col-lg-6 d-none d-lg-block">
                 <div style="position:relative; left:30%; top:10%;">
@@ -120,21 +57,7 @@
                     <button type="submit" class="btn btn-primary btn-user btn-block"/>
                       Login
                   </button>
-                    <!--hr>
-                    <a href="index.html" class="btn btn-google btn-user btn-block">
-                      <i class="fab fa-google fa-fw"></i> Login with Google
-                    </a>
-                    <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                      <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
-                    </a-->
                   </form>
-                  <!--hr>
-                  <div class="text-center">
-                    <a class="small" href="forgot-password.html">Forgot Password?</a>
-                  </div>
-                  <div class="text-center">
-                    <a class="small" href="register.html">Create an Account!</a>
-                  </div-->
                 </div>
               </div>
             </div>
