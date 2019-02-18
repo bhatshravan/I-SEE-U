@@ -42,11 +42,10 @@ exports.create = (req,res) => {
 };
 
 exports.register = (req,res) => {
-    res.render('/register')
+    res.render('/register');
 }
 
 exports.authenticate = (req,res) => {
-
     if(req.body.email && req.body.password)
     {
         var user = req.body.email;
@@ -83,7 +82,7 @@ function sendRep(data,err,req,res)
     //console.log(err);
     if(err)
     {
-        res.status(500).json({ success:false, err: data });
+        res.status(500).json({ success:false, err: data, err2: err });
         //console.log(err);
     }
 }

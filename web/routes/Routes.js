@@ -19,6 +19,9 @@ module.exports = app => {
     app.all('/' , (req,res) => {
         res.render('login');
     });
+    app.all('/Login',(req,res) => {
+        res.render('login');
+    });
 
     app.get('/register', (req,res) => {
         res.render('register');
@@ -51,7 +54,7 @@ module.exports = app => {
 }
 
 function requiresLogin(err, req, res, next) {
-    console.log("Requires login");
+    console.log("test2");
     if (req.session && req.session.userId)
     {
         console.log("test");
