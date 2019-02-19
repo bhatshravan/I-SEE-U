@@ -7,31 +7,26 @@ exports.main = (req,res) => {
     res.render('index');
 }
 
-function checkLogin(req,res) {
-    if (req.session && req.session.userId)
-    {
 
-    }
-    else
-    {
-        return res.redirect("Login");
-    }
-}
-
-exports.direct =(req,res) => {
-    // var user = req.body.email;
+//Test login
+exports.direct = (req,res) =>
+{
     var user  = "bhatshravan3@yahoo.com";
     logs(user+' giving direct login');
     User.findOne({email:user},
-    (err,data) => {
-        req.session.userId = data._id;
-        req.session.userEmail = data.email;
-        logs(data.email);
-        res.status(200).json({ success:true,data: data.email });
-        //sendRep(err,data,req,res);
-    });
-}
+        (err,data) => {
+            req.session.userId = data._id;
+            req.session.userEmail = data.email;
+            logs(data.email);
+            res.status(200).json({ success:true,data: data.email });
+            //sendRep(err,data,req,res);
+        });
+    
 
+
+
+
+//Camera functions
 exports.cameraMap = (req,res) => {
     const cameraMap = new Camera({
         cameraID: req.body.cameraID,
@@ -64,6 +59,13 @@ exports.cameraGetAll = (req,res) => {
     Camera.find((err,data)=>sendRep(err,data,req,res));
 }
 
+exports.cameraRemove = (req,res) => {
+    Camera.remove({"cameraID": req.body.cameraID},(err,data)=>sendRep(err,data,req,res));
+}
+
+
+
+//Misc functions
 function sendRep(err,data,req,res){
     if(err){
         res.status(500).json({err: err});
@@ -74,6 +76,16 @@ function sendRep(err,data,req,res){
         res.status(200).json(data);
     }
 }
+
+function checkLogin(req,res) {
+    if (req.session && req.session.userId)
+    {    }
+    else
+    {
+        return res.redirect("Login");
+    }
+}
+
 function logs(data){
     console.log('[]: '+data);
 }

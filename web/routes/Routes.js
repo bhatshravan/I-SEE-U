@@ -3,6 +3,7 @@ const path = require('path');
 const User_controller = require('../controllers/Users_controllers');
 const Stream_controller = require('../controllers/Stream_controller');
 const Admin_controller = require('../controllers/Admin_controller');
+const Patient_controller = require('../controllers/Patient_controller');
 const authError = (err, req, res, next) => {
      return res.status(401).json({ success: false, message: 'unauthorized' });
     //return res.redirect('/login.html');
@@ -14,6 +15,7 @@ module.exports = app => {
     const Users = express.Router();
     const Stream = express.Router();
     const Admin = express.Router();
+    const Patient = express.Router();
 
     ///Login page
     app.all('/' , (req,res) => {
@@ -51,6 +53,9 @@ module.exports = app => {
     Admin.post('/CamUpdate', Admin_controller.cameraUpdate);
     Admin.post('/CamGet', Admin_controller.cameraGet);
     Admin.post('/CamGetAll', Admin_controller.cameraGetAll);
+    Admin.post('/CamRemove', Admin_controller.cameraRemove);
+
+    //Patient
 
 
     //Error page
