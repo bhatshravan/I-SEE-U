@@ -41,10 +41,17 @@ module.exports = app => {
     Stream.get('/Main',Stream_controller.create);
     Stream.get('/Test',Stream_controller.test);
 
+    app.use('/index',requiresLogin, Admin_controller.main, authError);
+
 
     ///Admin page
-    // app.use('/Admin',Admin);
-    app.use('/index',requiresLogin, Admin_controller.main, authError);
+    app.use('/Admin',Admin);
+    Admin.post('/Test', Admin_controller.direct);
+    Admin.post('/CamMap', requiresLogin, Admin_controller.cameraMap, authError);
+    Admin.post('/CamUpdate', Admin_controller.cameraUpdate);
+    Admin.post('/CamGet', Admin_controller.cameraGet);
+    Admin.post('/CamGetAll', Admin_controller.cameraGetAll);
+
 
     //Error page
     app.get('*', (req,res) => {

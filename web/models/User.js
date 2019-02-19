@@ -20,11 +20,7 @@ var UserSchema = new mongoose.Schema({
         type: String,
         required: true,
         enum: ['ADMIN','USER','DCR'],
-        default: ''
-    },
-    API_key:{
-        type: String,
-        required: false
+        default: 'USER'
     }
 });
 

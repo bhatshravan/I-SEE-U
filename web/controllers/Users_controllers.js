@@ -34,7 +34,6 @@ exports.create = (req,res) => {
                 return res.status(200).send('No error,successfully inserted')
             }
         });
-        // res.status(200).json({success:true, msg:"Data successfully inserted"});
     }
     else {
         return res.status(403).json({ success: false, error: 'Error occured, no data given' });
@@ -58,13 +57,12 @@ exports.authenticate = (req,res) => {
             }
             else
             {
-                //console.log(user);
                 var test2 = user.email;
                 req.session.userEmail = user.email;
                 req.session.userId = user._id;
                 logs(user._id+' successfully logged in');
                 res.redirect('/index');
-                // return res.status(200).json({ success:true , msg: "User logged in"})
+                //return res.status(200).json({ success:true , msg: "User logged in"})
             }
         });
     }

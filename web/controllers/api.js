@@ -6,15 +6,23 @@ exports.authenticate = (req,res) => {
         var user = req.body.email;
         var passwd = req.body.password;
         logs(user+' tried to log in');
-        User.authenticate(user ,passwd, (err, user) => {
+        User.authenticate(user, passwd, (err, user) => {
             if(err || !user) {
                 var error = new Error('Wrong email or password\n'+err);
                 return sendRep("Wrong email or password", error, req,res);
             }
             else
             {
-                logs(user._id+' successfully logged in');
-                res.redirect('/index');
+                bcrypt.hash(myPlaintextPassword, saltRounds, function(err, hash) {
+                    
+                    var UserMod = new User({
+                        email: user,
+
+                    });
+                    logs(user._id+' successfully logged in');
+                    res.status(200).json({ success:true, api: api_key});
+
+                });
             }
         });
     }
