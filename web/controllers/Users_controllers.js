@@ -79,7 +79,7 @@ exports.create = (req,res) => {
         if(err)
         {
             res.status(500).json({ success:false, err: data, err2: err });
-            console.log('[ERR:] :'err);
+            console.log('[ERR:] :'+err);
         }
     }
     function logs(data){

@@ -56,6 +56,8 @@ module.exports = app => {
     Admin.post('/CamRemove', Admin_controller.cameraRemove);
 
     //Patient
+    app.use('/Patient',Patient);
+    Admin.post('/newPatient', Patient_controller.newPatient);
 
 
     //Error page

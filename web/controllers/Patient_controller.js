@@ -20,6 +20,9 @@ exports.newRelative = (req,res) => {
     Patient.create(req.body.patientID,{ $set: req.body },(err,data)=>sendRep(err,data,req,res));
 }
 
+exports.addMinutes = (req,res => {
+
+});
 
 exports.modifyPatient = (req,res) => {
     Patient.findOneAndUpdate(req.body.patientID,{ $set: req.body },(err,data)=>sendRep(err,data,req,res));
