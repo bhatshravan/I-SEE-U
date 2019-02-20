@@ -1,90 +1,83 @@
-const express = require('express');
-const path = require('path');
-const User_controller = require('../controllers/Users_controllers');
-const Stream_controller = require('../controllers/Stream_controller');
-const Admin_controller = require('../controllers/Admin_controller');
-const Patient_controller = require('../controllers/Patient_controller');
+const express = require("express");
+const path = require("path");
+const User_controller = require("../controllers/Users_controllers");
+const Stream_controller = require("../controllers/Stream_controller");
+const Admin_controller = require("../controllers/Admin_controller");
+const Patient_controller = require("../controllers/Patient_controller");
 const authError = (err, req, res, next) => {
-     return res.status(401).json({ success: false, message: 'unauthorized' });
-    //return res.redirect('/login.html');
+  return res.status(401).json({ success: false, message: "unauthorized" });
+  //return res.redirect('/login.html');
 };
 
-
 module.exports = app => {
+  const Users = express.Router();
+  const Stream = express.Router();
+  const Admin = express.Router();
+  const Patient = express.Router();
 
-    const Users = express.Router();
-    const Stream = express.Router();
-    const Admin = express.Router();
-    const Patient = express.Router();
+  ///Login page
+  app.all("/", (req, res) => {
+    res.render("login");
+  });
+  app.all("/Login", (req, res) => {
+    res.render("login");
+  });
 
-    ///Login page
-    app.all('/' , (req,res) => {
-        res.render('login');
-    });
-    app.all('/Login',(req,res) => {
-        res.render('login');
-    });
+  app.get("/register", (req, res) => {
+    res.render("register");
+  });
 
-    app.get('/register', (req,res) => {
-        res.render('register');
-    });
+  //Users login page
+  app.use("/Users", Users);
+  Users.post("/Register", User_controller.create);
+  Users.post("/Login", User_controller.authenticate);
+  //Users.all('/Logout', User_controller.logout);
 
-    //Users login page
-    app.use('/Users',Users);
-    Users.post('/Register',User_controller.create);
-    Users.post('/Login',User_controller.authenticate);
-    //Users.all('/Logout', User_controller.logout);
+  app.all("/Logout", User_controller.logout);
 
+  ///Stream page
+  app.use("/Stream", Stream);
+  Stream.get("/Main", Stream_controller.create);
+  Stream.get("/Test", Stream_controller.test);
 
-    app.all('/Logout',User_controller.logout);
+  app.use("/index", requiresLogin, Admin_controller.main, authError);
 
-    ///Stream page
-    app.use('/Stream',Stream);
-    Stream.get('/Main',Stream_controller.create);
-    Stream.get('/Test',Stream_controller.test);
+  ///Admin page
+  app.use("/Admin", Admin);
+  Admin.post("/Test", Admin_controller.direct);
+  Admin.post("/CamMap", requiresLogin, Admin_controller.cameraMap, authError);
+  Admin.post("/CamUpdate", Admin_controller.cameraUpdate);
+  Admin.post("/CamGet", Admin_controller.cameraGet);
+  Admin.post("/CamGetAll", Admin_controller.cameraGetAll);
+  Admin.post("/CamRemove", Admin_controller.cameraRemove);
 
-    app.use('/index',requiresLogin, Admin_controller.main, authError);
-
-
-    ///Admin page
-    app.use('/Admin',Admin);
-    Admin.post('/Test', Admin_controller.direct);
-    Admin.post('/CamMap', requiresLogin, Admin_controller.cameraMap, authError);
-    Admin.post('/CamUpdate', Admin_controller.cameraUpdate);
-    Admin.post('/CamGet', Admin_controller.cameraGet);
-    Admin.post('/CamGetAll', Admin_controller.cameraGetAll);
-    Admin.post('/CamRemove', Admin_controller.cameraRemove);
-
-    //Patient
-    app.use('/Patient',Patient);
-    Admin.post('/newPatient', Patient_controller.newPatient);
-    Admin.post('/newRelative', Patient_controller.newRelative);
-    Admin.post('/addMinutes', Patient_controller.addMinutes);
-    Admin.post('/modifyRelative', Patient_controller.modifyRelative);
-    Admin.post('/removeRelative', Patient_controller.removeRelative);
-    Admin.post('/removeRelativeAll', Patient_controller.removeRelativeAll);
-    Admin.post('/PatientGet', Patient_controller.removeRelative);
-    Admin.post('/PatientGetAll', Patient_controller.removeRelative);
-    Admin.post('/removePatient', Patient_controller.removeRelative);
+  // //Patient
+  app.use("/Patient", Patient);
+  Patient.post("/newPatient", Patient_controller.newPatient);
+  Patient.post("/newRelative", Patient_controller.newRelative);
+  Patient.post("/updateMinutes", Patient_controller.updateMinutes);
+  Patient.post("/modifyPatient", Patient_controller.modifyPatient);
+  Patient.post("/removeRelative", Patient_controller.removeRelative);
+  Patient.post("/removeRelativeAll", Patient_controller.removeRelativeAll);
+  Patient.post("/patientGet", Patient_controller.removeRelative);
+  Patient.post("/patientGetAll", Patient_controller.PatientGetAll);
+  Patient.post("/removePatient", Patient_controller.removePatient);
 
 
-    //Error page
-    app.get('*', (req,res) => {
-        res.status(404);
-        res.render('404');
-    });
-}
+  //Error page
+  app.get("*", (req, res) => {
+    res.status(404);
+    res.render("404");
+  });
+};
 
 function requiresLogin(err, req, res, next) {
-    console.log("test2");
-    if (req.session && req.session.userId)
-    {
-        console.log("test");
-        return next();
-    }
-    else
-    {
-        console.log("error");
-        return next(err);
-    }
+  console.log("test2");
+  if (req.session && req.session.userId) {
+    console.log("test");
+    return next();
+  } else {
+    console.log("error");
+    return next(err);
+  }
 }

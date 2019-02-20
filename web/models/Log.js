@@ -22,8 +22,12 @@ var LogSchema = new mongoose.Schema({
     required: true
   },
   relativesList: [{ name: String, phone: Number, email: String }],
-  minutes:{
+  minutes: {
     type: Number,
     required: true
   }
 });
+
+var LogSchema = mongoose.model("LogSchema", LogSchema);
+
+module.exports = LogSchema;
