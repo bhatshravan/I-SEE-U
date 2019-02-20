@@ -58,6 +58,14 @@ module.exports = app => {
     //Patient
     app.use('/Patient',Patient);
     Admin.post('/newPatient', Patient_controller.newPatient);
+    Admin.post('/newRelative', Patient_controller.newRelative);
+    Admin.post('/addMinutes', Patient_controller.addMinutes);
+    Admin.post('/modifyRelative', Patient_controller.modifyRelative);
+    Admin.post('/removeRelative', Patient_controller.removeRelative);
+    Admin.post('/removeRelativeAll', Patient_controller.removeRelativeAll);
+    Admin.post('/PatientGet', Patient_controller.removeRelative);
+    Admin.post('/PatientGetAll', Patient_controller.removeRelative);
+    Admin.post('/removePatient', Patient_controller.removeRelative);
 
 
     //Error page

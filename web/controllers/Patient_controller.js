@@ -20,9 +20,11 @@ exports.newRelative = (req,res) => {
     Patient.create(req.body.patientID,{ $set: req.body },(err,data)=>sendRep(err,data,req,res));
 }
 
-exports.addMinutes = (req,res => {
-
-});
+exports.addMinutes = (req,res) => {
+    const patientMap = new Patient({
+        patientID: req.body.patientID
+    });
+};
 
 exports.modifyPatient = (req,res) => {
     Patient.findOneAndUpdate(req.body.patientID,{ $set: req.body },(err,data)=>sendRep(err,data,req,res));
@@ -45,6 +47,14 @@ exports.removeRelative = (req,res) => {
     Patient.findOneAndUpdate(req.body.patientID,{ $set: req.body },(err,data)=>sendRep(err,data,req,res));
 }
 
+exports.removePatient = (req,res) => {
+    const patientMap = new Patient({
+        cammeraUrl: req.body.cameraUrl,
+        patientID: req.body.patientID
+    });
+    Patient.remove(req.body.patientID,(err,data)=>sendRep(err,data,req,res));
+}
+
 exports.removeRelativeAll = (req,res) => {
     const patientMap = new Patient({
         cammeraUrl: req.body.cameraUrl,
@@ -54,12 +64,6 @@ exports.removeRelativeAll = (req,res) => {
 }
 
 
-exports.RelativeGet = (req,res) => {
-    const patientMap = new Patient({
-        cammeraID: req.body.patientID
-    });
-    Patient.find({"patientID": req.body.patientID},(err,data)=>sendRep(err,data,req,res));
-}
 
 exports.PatientGet = (req,res) => {
     const patientMap = new Patient({
