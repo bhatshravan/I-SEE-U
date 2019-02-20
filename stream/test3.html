@@ -1,0 +1,25 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Test stream</title>
+</head>
+<body>
+<script src="https://cdn.jwplayer.com/libraries/d2UffoZX.js"></script>
+<!-- <script>jwplayer.key="IAH95l45"</script> -->
+<!-- https://cdn.jwplayer.com/libraries/d2UffoZX.js -->
+<div id="myElement"></div>
+<script type="text/JavaScript">
+var playerInstance = jwplayer("myElement");
+playerInstance.setup({
+    sources: [{
+     	file: "http://localhost:8080/playlist.m3u8",
+        label: "720p HD"
+	}]
+});
+</script>
+<!-- file: "http://localhost:8000/live/st_low/index.mpd" -->
+
+</body>
+</html>
