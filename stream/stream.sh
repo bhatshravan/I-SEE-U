@@ -4,7 +4,7 @@ streamMid="rtmp://localhost/live/$1_st_mid"
 streamHigh="rtmp://localhost/live/$1_st_high"
 echo $streamLow
 
-inital="http://localhost:8000/live/"
+inital="http://$3:8000/live/"
 httpLow="$inital$1_st_low/index.m3u8"
 httpMid="$inital$1_st_mid/index.m3u8"
 httpHigh="$inital$1_st_high/index.m3u8"
