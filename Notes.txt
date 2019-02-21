@@ -7,9 +7,15 @@ Video streamer -> https://github.com/video-dev/hls.js/
 RTMP TO FLV streaming from file
 ffmpeg -re -thread_queue_size 512 -hwaccel auto -i sample.mp4 -c:v libx264 -preset ultrafast -c:a aac -ar 10000 -f flv -r 60.0 rtmp://localhost/live/STREAM_NAME
 
+ffmpeg -re -i sample.mkv -c:v libx264 -preset superfast -tune zerolatency -c:a aac -ar 44100 -f flv rtmp://localhost/live/STREAM_NAME
+
 ffmpeg -i input.mp4 -profile:v baseline -level 3.0 -s 640x360 -start_number 0 -hls_time 10 -hls_list_size 0 -f hls index.m3u8
 
  -tune zerolatency
+
+ http://localhost:8000/live/st_low.flv
+  http://localhost:8000/live/st_mid.flv
+   http://localhost:8000/live/st_high.flv
 
 ffmpeg -re -thread_queue_size 512 -hwaccel auto -i sample.mp4 \
  -c:v libx264 -pix_fmt yuv420p -profile:v baseline -preset ultrafast -c:a aac -ar 11025 -s 640x360 -f flv rtmp://localhost/live/st_low \
@@ -18,9 +24,9 @@ ffmpeg -re -thread_queue_size 512 -hwaccel auto -i sample.mp4 \
 
 ffmpeg -re -thread_queue_size 512 -hwaccel auto -i sample.mkv \
   -vf scale=w=640:h=360 -c:a aac -ar 48000 -c:v h264 -profile:v main -crf 20 -sc_threshold 0 -g 48 -keyint_min 48 -b:v 800k -maxrate 856k -bufsize 1200k -b:a 96k -f flv rtmp://localhost/live/st_low \
-  -vf scale=w=842:h=480 -c:a aac -ar 48000 -c:v h264 -profile:v main -crf 20 -sc_threshold 0 -g 48 -keyint_min 48 -maxrate 1498k -bufsize 2100k -b:a 128k -f flv rtmp://localhost/live/st_med 
-  -vf scale=w=1280:h=720 -c:a aac -ar 48000 -c:v h264 -profile:v main -crf 20 -sc_threshold 0 -g 48 -keyint_min 48 -b:v 2800k -maxrate 2996k -bufsize 4200k -b:a 128k -f flv rtmp://localhost/live/st_hgh
- 
+  -vf scale=w=842:h=480 -c:a aac -ar 48000 -c:v h264 -profile:v main -crf 20 -sc_threshold 0 -g 48 -keyint_min 48 -maxrate 1498k -bufsize 2100k -b:a 128k -f flv rtmp://localhost/live/st_med \
+  -vf scale=w=1280:h=720 -c:a aac -ar 48000 -c:v h264 -profile:v main -crf 20 -sc_threshold 0 -g 48 -keyint_min 48 -b:v 2800k -maxrate 2996k -bufsize 4200k -b:a 128k -f flv rtmp://localhost/live/st_high
+
 
 
 VBS Streaming options
