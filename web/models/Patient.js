@@ -16,7 +16,7 @@ var PatientSchema = new mongoose.Schema({
         type: Number
     },
     relativesList: [{
-        name: String, phone: Number, email: String
+        name: String, phone: Number, email: String, password: String
     }],
     vitals: {
         type: String

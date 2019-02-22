@@ -37,7 +37,7 @@ module.exports = app => {
 
   ///Stream page
   app.use("/Stream", Stream);
-  Stream.get("/Main", Stream_controller.create);
+  Stream.get("/Main", Stream_controller.stream);
   Stream.get("/Test", Stream_controller.test);
 
   app.use("/index", requiresLogin, Admin_controller.main, authError);
@@ -62,7 +62,6 @@ module.exports = app => {
   Patient.post("/patientGet", Patient_controller.removeRelative);
   Patient.post("/patientGetAll", Patient_controller.PatientGetAll);
   Patient.post("/removePatient", Patient_controller.removePatient);
-
 
   //Error page
   app.get("*", (req, res) => {

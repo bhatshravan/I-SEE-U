@@ -62,6 +62,7 @@ app.use(function (req, res, next) {
 
   res.locals.userEmail = req.session.userEmail;
   res.locals.userId = req.session.userId;
+  res.locals.url = "http://localhost:8080/playlist.m3u8";
   next();
 })
 

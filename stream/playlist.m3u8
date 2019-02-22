@@ -1,8 +1,8 @@
 #EXTM3U
 #EXT-X-VERSION:3
 #EXT-X-STREAM-INF:BANDWIDTH=300000,RESOLUTION=640x360
-http://10.0.15.152:8000/live/k1ag3_st_low/index.m3u8
+http://10.0.15.152:8000/live/spider_st_low/index.m3u8
 #EXT-X-STREAM-INF:BANDWIDTH=600000,RESOLUTION=842x480
-http://10.0.15.152:8000/live/k1ag3_st_mid/index.m3u8
+http://10.0.15.152:8000/live/spider_st_mid/index.m3u8
 #EXT-X-STREAM-INF:BANDWIDTH=1000000,RESOLUTION=1280x720
-http://10.0.15.152:8000/live/k1ag3_st_high/index.m3u8
+http://10.0.15.152:8000/live/spider_st_high/index.m3u8

@@ -13,11 +13,9 @@ exports.authenticate = (req,res) => {
             }
             else
             {
-                bcrypt.hash(myPlaintextPassword, saltRounds, function(err, hash) {
-                    
+                bcrypt.hash(myPlaintextPassword, 10, function(err, hash) {                    
                     var UserMod = new User({
                         email: user,
-
                     });
                     logs(user._id+' successfully logged in');
                     res.status(200).json({ success:true, api: api_key});

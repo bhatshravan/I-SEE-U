@@ -7,3 +7,7 @@ exports.create = (req,res) => {
 exports.test = (req,res) => {
     res.redirect('/login.html');
 }
+
+exports.stream = (req,res) => {
+    res.render('stream');
+}

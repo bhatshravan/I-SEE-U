@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const Patient = require("../models/Patient");
+const Random = require('random');
 
 //Patients functions
 exports.newPatient = (req, res) => {
@@ -13,6 +14,13 @@ exports.newPatient = (req, res) => {
 };
 
 exports.newRelative = (req, res) => {
+
+    var randomPassword = "hello,tes";
+    var hashedPassword = "";
+    bcrypt.hash(randomPassword, 10, function(err, hash) {
+        hashedPassword = hash;
+    });
+
   const Relative = {
     name: req.body.name,
     phone: req.body.phone,
