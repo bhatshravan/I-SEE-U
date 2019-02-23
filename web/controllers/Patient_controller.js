@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const Patient = require("../models/Patient");
-const Random = require('random');
+// const Random = require('random');
+const generator = require("generate-password");
 
 //Patients functions
 exports.newPatient = (req, res) => {
@@ -13,18 +14,24 @@ exports.newPatient = (req, res) => {
   patientMap.save((err, data) => sendRep(err, data, req, res));
 };
 
+var password = generator.generate({
+  length: 8,
+  uppercase: false
+});
+
 exports.newRelative = (req, res) => {
+  var randomPassword = "hello,tes";
+  var hashedPassword = "";
+  bcrypt.hash(randomPassword, 10, function(err, hash) {
+    hashedPassword = hash;
+  });
 
-    var randomPassword = "hello,tes";
-    var hashedPassword = "";
-    bcrypt.hash(randomPassword, 10, function(err, hash) {
-        hashedPassword = hash;
-    });
-
+  //TODO: SNED SMS
   const Relative = {
     name: req.body.name,
     phone: req.body.phone,
-    email: req.body.email
+    email: req.body.email,
+    password: hashedPassword
   };
   Patient.findOneAndUpdate(
     { patientID: req.body.patientID },

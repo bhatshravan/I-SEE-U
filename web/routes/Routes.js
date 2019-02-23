@@ -27,6 +27,8 @@ module.exports = app => {
     res.render("register");
   });
 
+  app.all("/SMS", Admin_controller.sendSms);
+
   //Users login page
   app.use("/Users", Users);
   Users.post("/Register", User_controller.create);

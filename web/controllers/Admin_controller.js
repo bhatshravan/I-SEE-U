@@ -1,5 +1,7 @@
 const User = require("../models/User");
 const Camera = require("../models/Camera");
+const creds = require("../../creds");
+const axios = require("axios");
 
 exports.main = (req, res) => {
   // res.render('DoubleHelix/index' , { email: req.session.userEmail });
@@ -61,6 +63,31 @@ exports.cameraRemove = (req, res) => {
   Camera.remove({ cameraID: req.body.cameraID }, (err, data) =>
     sendRep(err, data, req, res)
   );
+};
+
+exports.sendSms = (req, res) => {
+  var url = "http://api.msg91.com/api/sendhttp.php";
+
+  logs("Message sent to: " + req.body.mobiles);
+  //return res.redirect('/login');
+  axios
+    .get(url, {
+      params: {
+        country: 91,
+        sender: "KSITBG",
+        route: 4,
+        mobiles: "91" + req.body.mobiles,
+        authkey: creds.api,
+        message: req.body.message
+      }
+    })
+    .then(function(response) {
+      console.log(response);
+      res.status(200).json({ success: true });
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
 };
 
 //Misc functions
