@@ -1,4 +1,5 @@
 const {NodeMediaServer} = require('node-media-server');
+const ffmpegPath = require('./config');
 
 const config = {
   rtmp: {
@@ -14,7 +15,7 @@ const config = {
     allow_origin: '*'
   },
   trans: {
-    ffmpeg: '/usr/bin/ffmpeg',
+    ffmpeg: ffmpegPath.setPath(),
     tasks: [
       {
         app: 'live',
