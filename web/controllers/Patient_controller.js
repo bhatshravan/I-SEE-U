@@ -20,6 +20,8 @@ var password = generator.generate({
 });
 
 exports.newRelative = (req, res) => {
+  var username = req.body.patientID;
+
   var randomPassword = "hello,tes";
   var hashedPassword = "";
   bcrypt.hash(randomPassword, 10, function(err, hash) {
@@ -30,7 +32,7 @@ exports.newRelative = (req, res) => {
   const Relative = {
     name: req.body.name,
     phone: req.body.phone,
-    email: req.body.email,
+    username: req.body.username,
     password: hashedPassword
   };
   Patient.findOneAndUpdate(

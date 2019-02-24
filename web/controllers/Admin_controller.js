@@ -1,6 +1,6 @@
 const User = require("../models/User");
 const Camera = require("../models/Camera");
-const creds = require("../../creds");
+const creds = require("../creds");
 const axios = require("axios");
 
 exports.main = (req, res) => {
@@ -74,7 +74,7 @@ exports.sendSms = (req, res) => {
     .get(url, {
       params: {
         country: 91,
-        sender: "KSITBG",
+        sender: "DBLHLX",
         route: 4,
         mobiles: "91" + req.body.mobiles,
         authkey: creds.api,
