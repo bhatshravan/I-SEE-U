@@ -27,6 +27,10 @@ module.exports = app => {
     res.render("register");
   });
 
+  app.get("/AdminDashboard", (req, res) => {
+    res.render("AdminDashboard/index");
+  });
+
   app.all("/SMS", Admin_controller.sendSms);
 
   //Users login page

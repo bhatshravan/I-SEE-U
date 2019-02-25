@@ -59,7 +59,7 @@ exports.create = (req,res) => {
                     req.session.userEmail = user.email;
                     req.session.userId = user._id;
                     logs(user._id+' successfully logged in');
-                    res.redirect('/index');
+                    res.redirect('/AdminDashboard');
                     //return res.status(200).json({ success:true , msg: "User logged in"})
                 }
             });
