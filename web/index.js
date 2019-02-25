@@ -38,6 +38,7 @@ app.use(upload.array());
 
 // serve static files from template
 app.use("/public", express.static("web/views/public/"));
+app.use("/video", express.static("web/views/video/"));
 
 //Set up a render engine which is ejs
 app.engine("html", require("ejs").renderFile);
@@ -85,6 +86,6 @@ app.use((req, res, next) => {
 router(app);
 
 //Start server
-app.listen(8080, function() {
+app.listen(80, function() {
   console.log("Started server at: " + config.PORT + "  \n\n");
 });

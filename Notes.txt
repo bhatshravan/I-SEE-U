@@ -60,3 +60,10 @@ db.dropDatabase()
 
 
 https://docs.peer5.com/guides/production-ready-hls-vod/
+
+
+Http Live Streaming - HLS
+FFMPEG
+Node media server - https://www.npmjs.com/package/node-media-server
+Express - https://www.npmjs.com/package/express
+Mongodb
