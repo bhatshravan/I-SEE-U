@@ -64,8 +64,7 @@ app.use(
 app.use(function(req, res, next) {
   console.log("[Body request]: " + req.body); // populated!
 
-  res.locals.userEmail = req.session.userEmail;
-  res.locals.userId = req.session.userId;
+  res.locals.session = req.session;
   res.locals.url = "http://localhost:8080/playlist.m3u8";
   next();
 });
