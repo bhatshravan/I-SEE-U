@@ -27,9 +27,29 @@ module.exports = app => {
     res.render("register");
   });
 
-  app.get("/AdminDashboard", (req, res) => {
+
+
+  app.get("/AdminDashboard/index", (req, res) => {
     res.render("AdminDashboard/index");
   });
+  app.get("/AdminDashboard/contact", (req, res) => {
+    res.render("AdminDashboard/contact");
+  });
+  app.get("/AdminDashboard/addPatients", (req, res) => {
+    res.render("AdminDashboard/addPatients");
+  });
+
+  app.get("/PatientDashboard/index", (req, res) => {
+    res.render("PatientDashboard/index");
+  });
+  app.get("/PatientDashboard/documents", (req, res) => {
+    res.render("PatientDashboard/documents");
+  });
+  app.get("/PatientDashboard/bestWishes", (req, res) => {
+    res.render("PatientDashboard/bestWishes");
+  });
+
+
 
   app.all("/SMS", Admin_controller.sendSms);
 
