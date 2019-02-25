@@ -33,6 +33,7 @@ coverage
 bower_components
 
 package-lock.json
+playlist/
 
 # node-waf configuration
 .lock-wscript

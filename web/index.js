@@ -86,6 +86,6 @@ app.use((req, res, next) => {
 router(app);
 
 //Start server
-app.listen(80, function() {
+app.listen(8080, function() {
   console.log("Started server at: " + config.PORT + "  \n\n");
 });
