@@ -38,6 +38,9 @@ module.exports = app => {
   app.get("/AdminDashboard/addPatients", (req, res) => {
     res.render("AdminDashboard/addPatients");
   });
+  app.get("/AdminDashboard/cameras", (req, res) => {
+    res.render("AdminDashboard/cameras");
+  });
 
   app.get("/PatientDashboard/index", (req, res) => {
     res.render("PatientDashboard/index");

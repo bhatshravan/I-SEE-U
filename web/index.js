@@ -86,5 +86,5 @@ router(app);
 
 //Start server
 app.listen(config.PORT, function() {
-  console.log("Started server at: " + config.PORT + "  \n\n");
+  console.log("Started server at: http://localhost:" + config.PORT + "  \n\n");
 });
