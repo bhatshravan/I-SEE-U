@@ -32,7 +32,6 @@ exports.newRelative = (req, res) => {
   const Relative = {
     name: req.body.name,
     phone: req.body.phone,
-    username: req.body.username,
     password: hashedPassword
   };
   Patient.findOneAndUpdate(
