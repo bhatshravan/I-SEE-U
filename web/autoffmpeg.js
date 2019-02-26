@@ -14,22 +14,21 @@ var narray = [];
 console.log("[STREAM STARTED]");
 
 function readInput() {
-  fs.readFile("views/video/INPUT", "utf8", (err, contents) => {
+  fs.readFile("web/views/video/INPUT", "utf8", (err, contents) => {
     next = contents;
     if (previous == next) {
       //console.log("No change in stream");
     } else {
-      console.log("\nNew content detected");
+      //console.log("\nNew content detected");
 
       var array = contents.toString().split("\n");
       if (array.length < parray.length) {
         for (jj = parray.length - 1; jj >= array.length; jj--) {
           try {
+            childProcess[i].stdin.write('q');
             childProcess[jj].kill();
-            process.kill(childPid[jj]);
             childstarted[jj] = "killed";
-            console.log("[]Popping: " + parray[jj]);
-            console.log("[]PoppingPID: " + childPid[jj]);
+            console.log("[STREAM] Popping: " + parray[jj]);
 
             parray.pop();
           } catch (err2) {}
@@ -40,11 +39,11 @@ function readInput() {
           if (array[i] == parray[i]);
           else {
             //try{
-            console.log("Change detected in: " + array[i]);
+            //console.log("Change detected in: " + array[i]);
 
             if (childstarted[i] == "started") {
+              childProcess[i].stdin.write('q');
               childProcess[i].kill();
-              process.kill(childPid[i]);
               childstarted[i] == "killed";
             }
             //}
@@ -52,10 +51,10 @@ function readInput() {
             var insplits = array[i].split(",");
 
             if (insplits[4] == "disabled") {
-              console.log("Disabled: " + insplits[0]);
+              console.log("[STREAM]: DISABLED: " + insplits[0]);
             } else {
               childProcess[i] = child_process.exec(
-                'views/video/stream.sh "' +
+                'web/views/video/stream.sh "' +
                   insplits[0] +
                   '" "' +
                   insplits[1] +
@@ -67,8 +66,8 @@ function readInput() {
                 { async: true, silent: true }
               );
 
-              console.log("\n[]Started: " + insplits[0]);
-              console.log("[]Pid: " + childProcess[i].pid);
+              console.log("[STREAM]: Started: " + insplits[0]);
+              //console.log("[]Pid: " + childProcess[i].pid);
               childPid[i] = childProcess[i].pid;
 
               //console.log('views/video/stream.sh \"'+insplits[0]+'\" \"'+insplits[1]+'\" \"'+insplits[2]+'\" \"'+insplits[3]+'\"');

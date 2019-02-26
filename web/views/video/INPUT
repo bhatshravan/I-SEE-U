@@ -1,1 +1,2 @@
-spider,/home/shravan/Videos/spider/spider.mp4,192.168.0.107,playlist,enabled
+spider,/home/shravan/Videos/spider/spider.mp4,localhost,playlist,enabled
+spider2,/home/shravan/Videos/spider/spider.mp4,localhost,playlist2,enabled
