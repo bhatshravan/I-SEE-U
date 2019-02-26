@@ -45,17 +45,11 @@ exports.cameraUpdate = (req, res) => {
 };
 
 exports.cameraGet = (req, res) => {
-  const cameraMap = new Camera({
-    cammeraID: req.body.cameraID
-  });
   Camera.find({ cameraID: req.body.cameraID }, (err, data) =>
     sendRep(err, data, req, res)
   );
 };
 exports.cameraGetAll = (req, res) => {
-  const cameraMap = new Camera({
-    cammeraID: req.body.cameraID
-  });
   Camera.find((err, data) => sendRep(err, data, req, res));
 };
 

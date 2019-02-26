@@ -4,6 +4,9 @@ const User_controller = require("../controllers/Users_controllers");
 const Stream_controller = require("../controllers/Stream_controller");
 const Admin_controller = require("../controllers/Admin_controller");
 const Patient_controller = require("../controllers/Patient_controller");
+
+const Camera = require("../models/Camera");
+
 const authError = (err, req, res, next) => {
   return res.status(401).json({ success: false, message: "unauthorized" });
   //return res.redirect('/login.html');
@@ -39,7 +42,10 @@ module.exports = app => {
     res.render("AdminDashboard/addPatients");
   });
   app.get("/AdminDashboard/cameras", (req, res) => {
-    res.render("AdminDashboard/cameras");
+    Camera.find((err, data) => res.render("AdminDashboard/cameras", {"cameras":data}));
+  });
+  app.get("/AdminDashboard/patients", (req, res) => {
+    res.render("AdminDashboard/patients");
   });
 
   app.get("/PatientDashboard/index", (req, res) => {
@@ -51,8 +57,6 @@ module.exports = app => {
   app.get("/PatientDashboard/bestWishes", (req, res) => {
     res.render("PatientDashboard/bestWishes");
   });
-
-
 
   app.all("/SMS", Admin_controller.sendSms);
 
@@ -80,7 +84,7 @@ module.exports = app => {
   Admin.post("/CamGetAll", Admin_controller.cameraGetAll);
   Admin.post("/CamRemove", Admin_controller.cameraRemove);
 
-  // //Patient
+  //Patient
   app.use("/Patient", Patient);
   Patient.post("/newPatient", Patient_controller.newPatient);
   Patient.post("/newRelative", Patient_controller.newRelative);

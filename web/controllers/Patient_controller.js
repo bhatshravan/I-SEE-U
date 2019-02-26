@@ -9,7 +9,8 @@ exports.newPatient = (req, res) => {
     name: req.body.name,
     room: req.body.room,
     patientID: req.body.patientID,
-    minutes: req.body.minutes
+    minutes: req.body.minutes,
+    relatives: req.body.minutes
   });
   patientMap.save((err, data) => sendRep(err, data, req, res));
 };

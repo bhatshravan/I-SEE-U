@@ -6,7 +6,6 @@ var PatientSchema = new mongoose.Schema({
     },
     room :{
         type: String,
-        required: true
     },
     patientID: {
         type: String,
@@ -15,8 +14,8 @@ var PatientSchema = new mongoose.Schema({
     minutes: {
         type: Number
     },
-    relativesList: [{
-        name: String, phone: Number, email: String, password: String
+    relatives: [{
+        name: String, phone: Number, password: String
     }],
     vitals: {
         type: String

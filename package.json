@@ -38,7 +38,7 @@
     "node-media-server": "^1.4.12"
   },
   "scripts": {
-    "stream": "nodemon stream/app.js",
+    "stream": "nodemon web/stream.js",
     "start": "nodemon web/index.js"
   }
 }

@@ -49,13 +49,10 @@
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
-                                    <form class="user">
+                                    <form class="user" action="../Patient/newPatient" method="post">
                                         <div class="form-group row">
-                                            <div class="col-sm-6 mb-3 mb-sm-0">
-                                                <input type="text" class="form-control form-control-patient" id="firstName" placeholder="First Name" name="firstName" />
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <input type="text" class="form-control form-control-patient" id="lastName" placeholder="Last Name" name="lastName" />
+                                            <div class="col-sm-12 mb-3 mb-sm-0">
+                                                <input type="text" class="form-control form-control-patient" id="firstName" placeholder="Name" name="name" />
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -82,10 +79,10 @@
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-sm-6 mb-3 mb-sm-0">
-                                                <input type="text" class="form-control form-control-patient" id="relativeName1" name="relatives[relative1][name]" placeholder="Relative Name" />
+                                                <input type="text" class="form-control form-control-patient" id="relativeName1" name="relatives[name]" placeholder="Relative Name" />
                                             </div>
                                             <div class="col-sm-6 mb-3 mb-sm-0">
-                                                <input type="phone" class="form-control form-control-patient" id="relativePhone1" name="relatives[relative1][phone]" placeholder="Phone No" />
+                                                <input type="phone" class="form-control form-control-patient" id="relativePhone1" name="relatives[phone]" placeholder="Phone No" />
                                             </div>
                                         </div>
                                         <div id="placeholder-box"></div>
