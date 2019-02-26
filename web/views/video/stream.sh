@@ -11,7 +11,7 @@ httpHigh="$inital$1_st_high/index.m3u8"
 
 finalplay="#EXTM3U\n#EXT-X-VERSION:3\n#EXT-X-STREAM-INF:BANDWIDTH=300000,RESOLUTION=640x360\n$httpLow\n#EXT-X-STREAM-INF:BANDWIDTH=600000,RESOLUTION=842x480\n$httpMid\n#EXT-X-STREAM-INF:BANDWIDTH=1000000,RESOLUTION=1280x720\n$httpHigh"
 
-echo -e $finalplay > "views/video/playlist/$4.m3u8"
+echo -e $finalplay > "/home/shravan/Program/node/I-SEE-U/web/views/video/playlist/$4.m3u8"
 
 ffmpeg -re -hwaccel auto -i $2 \
 -vf scale=w=640:h=360 -c:a aac -ar 11025 -c:v h264 -profile:v baseline -crf 20 -sc_threshold 0 -g 48 -keyint_min 48 -b:v 800k -maxrate 856k -bufsize 1200k -b:a 96k -f flv $streamLow \
