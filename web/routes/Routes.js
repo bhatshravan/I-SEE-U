@@ -6,6 +6,7 @@ const Admin_controller = require("../controllers/Admin_controller");
 const Patient_controller = require("../controllers/Patient_controller");
 
 const Camera = require("../models/Camera");
+const Patients = require("../models/Patient");
 
 const authError = (err, req, res, next) => {
   return res.status(401).json({ success: false, message: "unauthorized" });
@@ -30,8 +31,6 @@ module.exports = app => {
     res.render("register");
   });
 
-
-
   app.get("/AdminDashboard/index", (req, res) => {
     res.render("AdminDashboard/index");
   });
@@ -42,10 +41,14 @@ module.exports = app => {
     res.render("AdminDashboard/addPatients");
   });
   app.get("/AdminDashboard/cameras", (req, res) => {
-    Camera.find((err, data) => res.render("AdminDashboard/cameras", {"cameras":data}));
+    Camera.find((err, data) =>
+      res.render("AdminDashboard/cameras", { cameras: data })
+    );
   });
   app.get("/AdminDashboard/patients", (req, res) => {
-    res.render("AdminDashboard/patients");
+    Patients.find((err, data) =>
+      res.render("AdminDashboard/patients", { patients: data })
+    );
   });
 
   app.get("/PatientDashboard/index", (req, res) => {
@@ -94,7 +97,7 @@ module.exports = app => {
   Patient.post("/removeRelativeAll", Patient_controller.removeRelativeAll);
   Patient.post("/patientGet", Patient_controller.removeRelative);
   Patient.post("/patientGetAll", Patient_controller.PatientGetAll);
-  Patient.post("/removePatient", Patient_controller.removePatient);
+  Patient.get("/removePatient", Patient_controller.removePatient);
 
   //Error page
   app.get("*", (req, res) => {

@@ -69,8 +69,8 @@ exports.removeRelative = (req, res) => {
 };
 
 exports.removePatient = (req, res) => {
-  Patient.deleteOne({ patientID: req.body.patientID }, (err, data) =>
-    sendRep(err, data, req, res)
+  Patient.deleteOne({ _id: req.query.patientID }, (err, data) =>
+    res.redirect("../AdminDashboard/patients")
   );
 };
 

@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
 
-    <title>Apollo Hospitals Admin - Add Patients</title>
+    <title>Apollo Hospitals Admin - List Patients</title>
     <%include ./partials/head%>
   </head>
 
@@ -26,7 +26,7 @@
           <!-- Begin Page Content -->
           <div class="container-fluid">
             <!-- Page Heading -->
-            <h1 class="h3 mb-2 text-gray-800">Camera Status</h1>
+            <h1 class="h3 mb-2 text-gray-800">List Patients</h1>
 
             <!-- DataTales Example -->
             <div class="card mb-4">
@@ -40,23 +40,51 @@
                   >
                     <thead>
                       <tr>
-                        <th>Camera ID</th>
+                        <th>Patient ID</th>
+                        <th>Name</th>
                         <th>Bed Number</th>
                         <th>Room Number</th>
-                        <th>Status</th>
-                        <th>View Stream</th>
+                        <th>Add Relatives</th>
+                        <th>Remove Patients</th>
                       </tr>
                     </thead>
                     <tfoot>
                       <tr>
-                        <th>Camera ID</th>
+                        <th>Patient ID</th>
+                        <th>Name</th>
                         <th>Bed Number</th>
                         <th>Room Number</th>
-                        <th>Status</th>
-                        <th>View Stream</th>
+                        <th>Add Relatives</th>
+                        <th>Remove Patients</th>
                       </tr>
                     </tfoot>
                     <tbody>
+                    <% for(var i=0; i<patients.length; i++) {%>
+                    <tr>
+                      <td><%= patients[i].patientID%></td>
+                      <td><%= patients[i].name%></td>
+                      <td><%= patients[i].bedNumber%></td>
+                      <td><%= patients[i].roomNumber%></td>
+                      <td>
+                        <a href="#" class="btn btn-success btn-icon-split">
+                        <span class="icon text-white-50">
+                          <i class="fas fa-plus"></i>
+                        </span>
+                        <span class="text">Add Relatives</span>
+                        </a>
+                      </td>
+                      <td>
+                      <!--href="../Patient/removePatient?patientID=<%= patients[i].patientID%>"-->
+                        <a href="../Patient/removePatient?patientID=<%= patients[i]._id%>" class="btn btn-danger btn-icon-split" >
+                          <span class="icon text-white-50">
+                            <i class="fas fa-trash"></i>
+                          </span>
+                          <span class="text">Remove Patient</span>
+                        </a>
+                      </td>
+                    </tr>
+
+                    <%}%>
                     </tbody>
                   </table>
                 </div>
@@ -81,6 +109,13 @@
     </div>
     <!-- End of Page Wrapper -->
 
+    <script> 
+    function deleteItem(var id) {
+      alert(id);
+      $.get('../Patient/removePatient?patientID=' +id);
+      $(id).closest("tr").remove();
+    }
+    </script>
     <% include ./partials/footer %>
   </body>
 </html>
