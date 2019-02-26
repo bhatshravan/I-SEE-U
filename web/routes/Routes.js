@@ -61,6 +61,8 @@ module.exports = app => {
     res.render("PatientDashboard/bestWishes");
   });
 
+  app.post("/Login/test", Patient_controller.test);
+
   app.all("/SMS", Admin_controller.sendSms);
 
   //Users login page

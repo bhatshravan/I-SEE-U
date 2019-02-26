@@ -1,7 +1,62 @@
 const User = require("../models/User");
 const Patient = require("../models/Patient");
-// const Random = require('random');
+const creds = require("../creds");
+const axios = require("axios");
+const bcrypt = require("bcrypt");
 const generator = require("generate-password");
+
+exports.test = (req, res) => {
+  var username = req.body.patientID;
+  var phone = req.body.phone;
+
+  var password = generator.generate({
+    length: 6,
+    uppercase: false
+  });
+  var hashedPassword = "";
+  bcrypt.hash(password, 2, function(err, hash) {
+    if (err) {
+      console.log(err);
+    }
+    var finalUser = username + "@" + parseInt(phone).toString(36);
+
+    console.log("Username is: " + finalUser);
+    console.log("Password is: " + password);
+    console.log("Hash is: " + hash);
+    res.status(200).json({ user: finalUser, password: password, hash: hash });
+    //sendSms(phone, finalUser, password);
+  });
+};
+
+function sendSms(mobile, user, password) {
+  var url = "http://api.msg91.com/api/sendhttp.php";
+
+  logs("Message sent to: " + mobile);
+  var message =
+    "You have been registered for I-SEE-YOU Facility at Apollo Hospitals\nUsername:" +
+    user +
+    "\nPassword:" +
+    password;
+  //return res.redirect('/login');
+  axios
+    .get(url, {
+      params: {
+        country: 91,
+        sender: "DBLHLX",
+        route: 4,
+        mobiles: "91" + mobile,
+        authkey: creds.api,
+        message: message
+      }
+    })
+    .then(function(response) {
+      //console.log(response);
+      log("Message sent successfully");
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+}
 
 //Patients functions
 exports.newPatient = (req, res) => {
@@ -15,32 +70,33 @@ exports.newPatient = (req, res) => {
   patientMap.save((err, data) => sendRep(err, data, req, res));
 };
 
-var password = generator.generate({
-  length: 8,
-  uppercase: false
-});
-
 exports.newRelative = (req, res) => {
   var username = req.body.patientID;
+  var phone = req.body.phone;
 
-  var randomPassword = "hello,tes";
-  var hashedPassword = "";
-  bcrypt.hash(randomPassword, 10, function(err, hash) {
-    hashedPassword = hash;
+  var password = generator.generate({
+    length: 6,
+    uppercase: false
   });
+  var hashedPassword = "";
+  bcrypt.hash(password, 2, function(err, hash) {
+    if (err) {
+      console.log(err);
+    }
+    var finalUser = username + "@" + parseInt(phone).toString(36);
 
-  //TODO: SNED SMS
-  const Relative = {
-    name: req.body.name,
-    phone: req.body.phone,
-    password: hashedPassword
-  };
-  Patient.findOneAndUpdate(
-    { patientID: req.body.patientID },
-    { $push: { relativesList: Relative } },
-    { new: true },
-    (err, data) => sendRep(err, data, req, res)
-  );
+    const Relative = {
+      name: req.body.name,
+      phone: req.body.phone,
+      password: hash
+    };
+    Patient.findOneAndUpdate(
+      { patientID: req.body.patientID },
+      { $push: { relativesList: Relative } },
+      { new: true },
+      (err, data) => sendRep(err, data, req, res)
+    );
+  });
 };
 
 exports.updateMinutes = (req, res) => {

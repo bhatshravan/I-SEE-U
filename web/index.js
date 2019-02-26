@@ -62,10 +62,10 @@ app.use(
 
 //Log all body requests
 app.use(function(req, res, next) {
-  console.log("[Body request]: " + req.body); // populated!
+  //console.log("[Body request]: " + req.body); // populated!
 
   res.locals.session = req.session;
-  res.locals.url = "http://localhost:8080/playlist.m3u8";
+  //res.locals.url = "http://localhost:8080/playlist.m3u8";
   next();
 });
 
@@ -86,5 +86,7 @@ router(app);
 
 //Start server
 app.listen(config.PORT, function() {
-  console.log("Started server at: http://localhost:" + config.PORT + "  \n\n");
+  console.log(
+    "Started server at: http://" + config.URL + ":" + config.PORT + "  \n\n"
+  );
 });
