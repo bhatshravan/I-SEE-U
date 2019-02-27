@@ -16,13 +16,14 @@ console.log("[STREAM STARTED]");
 console.log(config.URL);
 
 function readInput() {
+  shell.exec("cp web/views/video/INPUT web/views/video/INPUT2");
   try {
-    fs.readFile("web/views/video/INPUT", "utf8", (err, contents) => {
+    fs.readFile("web/views/video/INPUT2", "utf8", (err, contents) => {
       next = contents;
       if (previous == next) {
         //console.log("No change in stream");
       } else {
-        //console.log("\nNew content detected");
+        console.log("\nNew content detected");
 
         var array = contents.toString().split("\n");
         if (array.length < parray.length) {
@@ -34,57 +35,37 @@ function readInput() {
               console.log("[STREAM] Popping: " + parray[jj]);
 
               parray.pop();
-            } catch (err2) {}
+            } catch (err2) {
+              console.log("Already popped");
+            }
           }
         }
         for (i in array) {
-          try {
-            if (array[i] == parray[i]);
-            else {
-              //try{
-              //console.log("Change detected in: " + array[i]);
-
-              if (childstarted[i] == "started") {
-                console.log("[STREAM] Killed: " + parray[i]);
-                childProcess[i].stdin.write("q");
-                childProcess[i].kill();
-                childstarted[i] == "killed";
-              }
-              //}
-              //catch(err2){                  }
-              var insplits = array[i].split(",");
-
-              if (insplits[3] == "disabled") {
-                console.log("[STREAM]: DISABLED: " + insplits[0]);
-              } else {
-                childProcess[i] = shell.exec(
-                  'web/views/video/stream.sh "' +
-                    insplits[0] +
-                    '" "' +
-                    insplits[1] +
-                    '" "' +
-                    config.URL +
-                    '" "' +
-                    insplits[2] +
-                    '"',
-                  { async: true, silent: false }
-                );
-
-                console.log("[STREAM]: Started: " + insplits[0]);
-                childPid[i] = childProcess[i].pid;
-
-                parray[i] = array[i];
-                childstarted[i] = "started";
-              }
-            }
-          } catch (err) {
-            console.log(err);
-            try {
-              childProcess[i].kill();
-
-              process.kill(childPid[i]);
-            } catch (err2) {}
+          if (array[i] == parray[i]);
+          else {
+            //console.log("Change detected in: " + array[i]);
+            stopItnow(i);
             var insplits = array[i].split(",");
+
+            if (insplits[3] == "disabled") {
+              console.log("[STREAM]: DISABLED " + insplits[0]);
+            } else {
+              childProcess[i] = shell.exec(
+                'web/views/video/stream.sh "' +
+                  insplits[0] +
+                  '" "' +
+                  insplits[1] +
+                  '" "' +
+                  config.URL +
+                  '" "' +
+                  insplits[2] +
+                  '"',
+                { async: true, silent: true }
+              );
+
+              console.log("[STREAM]: Started: " + insplits[0]);
+              childstarted[i] = "started";
+            }
             parray[i] = array[i];
           }
         }
@@ -93,5 +74,32 @@ function readInput() {
     });
   } catch (err0) {}
 }
-setInterval(readInput, 5 * 1000);
+setInterval(readInput, 1 * 1000);
 readInput();
+
+function stopItnow(i) {
+  if (childstarted[i] == "started") {
+    console.log("[STREAM] Killed: " + parray[i]);
+    try {
+      childProcess[i].stdin.write("q");
+    } catch (errr) {
+      //stopItnow(i);
+      console.log("Stream already stopped");
+    }
+  }
+  childstarted[i] == "killed";
+}
+
+function startItnow(i) {
+  if (childstarted[i] == "started") {
+    stopItnow(i);
+    console.log("[STREAM] Killed: " + parray[i]);
+    try {
+      childProcess[i].stdin.write("q");
+    } catch (errr) {
+      //stopItnow(i);
+      console.log("Stream already stopped");
+    }
+    childstarted[i] == "killed";
+  }
+}

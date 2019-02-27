@@ -2,6 +2,7 @@ const User = require("../models/User");
 const Camera = require("../models/Camera");
 const creds = require("../creds");
 const axios = require("axios");
+var fs = require("fs");
 
 exports.main = (req, res) => {
   // res.render('DoubleHelix/index' , { email: req.session.userEmail });
@@ -83,6 +84,13 @@ exports.sendSms = (req, res) => {
       console.log(error);
     });
 };
+
+var data = "New File Contents";
+
+fs.writeFile("web/views/video/INPUT3", data, function(err, data) {
+  if (err) console.log(err);
+  console.log("Successfully Written to File.");
+});
 
 //Misc functions
 function sendRep(err, data, req, res) {

@@ -4,5 +4,5 @@ module.exports = {
   PORT: 8080,
   secret: "Double helix",
   session_secret: "Double helix session",
-  URL: "192.168.12.1"
+  URL: "localhost"
 };

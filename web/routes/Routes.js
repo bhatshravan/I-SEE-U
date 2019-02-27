@@ -4,7 +4,7 @@ const User_controller = require("../controllers/Users_controllers");
 const Stream_controller = require("../controllers/Stream_controller");
 const Admin_controller = require("../controllers/Admin_controller");
 const Patient_controller = require("../controllers/Patient_controller");
-
+var os = require("os-utils");
 const Camera = require("../models/Camera");
 const Patients = require("../models/Patient");
 
@@ -32,7 +32,11 @@ module.exports = app => {
   });
 
   app.get("/AdminDashboard/index", (req, res) => {
-    res.render("AdminDashboard/index");
+    console.log(os.cpus());
+    res.render("AdminDashboard/index", {
+      cpu: os.cpus(),
+      memory: os.totalmem()
+    });
   });
   app.get("/AdminDashboard/contact", (req, res) => {
     res.render("AdminDashboard/contact");
