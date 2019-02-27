@@ -30,8 +30,6 @@ module.exports = app => {
     res.render("register");
   });
 
-
-
   app.get("/AdminDashboard/index", (req, res) => {
     res.render("AdminDashboard/index");
   });
@@ -42,7 +40,9 @@ module.exports = app => {
     res.render("AdminDashboard/addPatients");
   });
   app.get("/AdminDashboard/cameras", (req, res) => {
-    Camera.find((err, data) => res.render("AdminDashboard/cameras", {"cameras":data}));
+    Camera.find((err, data) =>
+      res.render("AdminDashboard/cameras", { cameras: data })
+    );
   });
   app.get("/AdminDashboard/patients", (req, res) => {
     res.render("AdminDashboard/patients");
@@ -57,6 +57,8 @@ module.exports = app => {
   app.get("/PatientDashboard/bestWishes", (req, res) => {
     res.render("PatientDashboard/bestWishes");
   });
+
+  app.post("/Login/test", Patient_controller.test);
 
   app.all("/SMS", Admin_controller.sendSms);
 
