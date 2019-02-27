@@ -64,10 +64,14 @@ exports.newPatient = (req, res) => {
     name: req.body.name,
     room: req.body.room,
     patientID: req.body.patientID,
-    minutes: req.body.minutes,
-    relatives: req.body.minutes
+    email: req.body.email,
+    phone: req.body.phone,
+    age: req.body.age,
+    bed: req.body.bed
   });
-  patientMap.save((err, data) => sendRep(err, data, req, res));
+  patientMap.save((err, data) =>
+    sendToPage(err, data, req, res, "AdminDashboard/addPatients")
+  );
 };
 
 exports.newRelative = (req, res) => {
@@ -156,6 +160,14 @@ function sendRep(err, data, req, res) {
     console.log("[] Error logging in: " + err);
   } else {
     res.status(200).json(data);
+  }
+}
+
+function sendToPage(err, data, req, res, redirect) {
+  if (err) {
+    res.render(redirect, { Success: false });
+  } else {
+    res.render(redirect, { Success: true });
   }
 }
 

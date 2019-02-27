@@ -38,7 +38,7 @@ module.exports = app => {
     res.render("AdminDashboard/contact");
   });
   app.get("/AdminDashboard/addPatients", (req, res) => {
-    res.render("AdminDashboard/addPatients");
+    res.render("AdminDashboard/addPatients", { Success: null });
   });
   app.get("/AdminDashboard/cameras", (req, res) => {
     Camera.find((err, data) =>
@@ -90,7 +90,7 @@ module.exports = app => {
   Admin.post("/CamRemove", Admin_controller.cameraRemove);
 
   //Patient
-  app.use("/Patient", Patient);
+  app.use("/AdminDashboard", Patient);
   Patient.post("/newPatient", Patient_controller.newPatient);
   Patient.post("/newRelative", Patient_controller.newRelative);
   Patient.post("/updateMinutes", Patient_controller.updateMinutes);

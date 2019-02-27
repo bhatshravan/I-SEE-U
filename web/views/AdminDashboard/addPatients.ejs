@@ -34,6 +34,25 @@
                         <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate
                             Report</a>
                     </div>
+                    
+                    <% if (Success == true) {%>
+                    <div class="col-lg-8 mb-4">
+                        <div class="card bg-success text-white shadow">
+                            <div class="card-body">
+                            Success
+                            </div>
+                        </div>
+                    </div>
+                    <%}
+                    else if(Success == false){ %>
+                    <div class="col-lg-8 mb-4">
+                    <div class="card bg-danger text-white shadow">
+                        <div class="card-body">
+                        Danger
+                        </div>
+                    </div>
+                    </div>
+                    <% } else{}%>
 
                     <!-- Content Row -->
 
@@ -49,7 +68,7 @@
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
-                                    <form class="user" action="../Patient/newPatient" method="post">
+                                    <form class="user" action="newPatient" method="post">
                                         <div class="form-group row">
                                             <div class="col-sm-12 mb-3 mb-sm-0">
                                                 <input type="text" class="form-control form-control-patient" id="firstName" placeholder="Name" name="name" />
@@ -79,16 +98,10 @@
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-sm-6 mb-3 mb-sm-0">
-                                                <input type="text" class="form-control form-control-patient" id="relativeName1" name="relatives[name]" placeholder="Relative Name" />
+                                              <input type="number" class="form-control form-control-patient" id="roomNo" placeholder="Room Number" name="room" />
                                             </div>
                                             <div class="col-sm-6 mb-3 mb-sm-0">
-                                                <input type="phone" class="form-control form-control-patient" id="relativePhone1" name="relatives[phone]" placeholder="Phone No" />
-                                            </div>
-                                        </div>
-                                        <div id="placeholder-box"></div>
-                                        <div class="form-group row">
-                                            <div class="col-sm-12 ">
-                                                <input id="addRelatives" class="form-control form-control-patient btn-outline-secondary" type="button" value="Add Relatives" />
+                                              <input type="number" class="form-control form-control-patient" id="bedNo" placeholder="Bed Number" name="bed" />
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -122,20 +135,7 @@
 
     <!-- Scroll to Top Button-->
     <% include ./partials/footer%>
-    <script>
-        var addBtn = document.getElementById("addRelatives");
-
-        var box = document.getElementById("placeholder-box");
-        var count = 1;
-        addBtn.addEventListener("click", function(event) {
-            count++;
-            box.innerHTML +=
-                '<div class=\"form-group row\">\r\n        <div class=\"col-sm-6 mb-3 mb-sm-0\">\r\n            <input\r\n            type=\"text\"\r\n            class=\"form-control form-control-patient\"\r\n            id=\"relativename\"\r\n            placeholder=\"Relative Name\"\r\nname=\"relatives[relative' +
-                count +
-                '][name]\"\r\n            \/>\r\n        <\/div>\r\n        <div class=\"col-sm-6 mb-3 mb-sm-0\">\r\n            <input\r\n            type=\"phone\"\r\n            class=\"form-control form-control-patient\"\r\n            id=\"exampleRepeatPassword\"\r\n            placeholder=\"Phone No\"\r\nname=\"relatives[relative' +
-                count + '][phone]\"\r\n            \/>\r\n        <\/div>\r\n    <\/div>';
-        });
-    </script>
+    
 </body>
 
 </html>
