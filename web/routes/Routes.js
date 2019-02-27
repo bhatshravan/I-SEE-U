@@ -51,7 +51,7 @@ module.exports = app => {
     );
   });
 
-  app.get("/PatientDashboard/index", (req, res) => {
+  app.get("/PatientDashboard", (req, res) => {
     res.render("PatientDashboard/index");
   });
   app.get("/PatientDashboard/documents", (req, res) => {
