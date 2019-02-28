@@ -13,6 +13,8 @@ finalplay="#EXTM3U\n#EXT-X-VERSION:3\n#EXT-X-STREAM-INF:BANDWIDTH=300000,RESOLUT
 
 echo -e $finalplay > "/home/shravan/Program/node/I-SEE-U/web/views/video/playlist/$4.m3u8"
 
+#ffmpeg -loop 1 -i %03d.png -t 30 output.mkv
+
 ffmpeg -re -hwaccel auto -i $2 \
 -vf scale=w=640:h=360 -c:a aac -ar 11025 -c:v h264 -profile:v baseline -crf 20 -sc_threshold 0 -g 48 -keyint_min 48 -b:v 800k -maxrate 856k -bufsize 1200k -b:a 96k -f flv $streamLow \
 -vf scale=w=842:h=480 -c:a aac -ar 11025 -c:v h264 -profile:v baseline -crf 20 -sc_threshold 0 -g 48 -keyint_min 48 -maxrate 1498k -bufsize 2100k -b:a 128k -f flv $streamMid

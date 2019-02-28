@@ -32,11 +32,8 @@ module.exports = app => {
   });
 
   app.get("/AdminDashboard/index", (req, res) => {
-    console.log(os.cpus());
-    res.render("AdminDashboard/index", {
-      cpu: os.cpus(),
-      memory: os.totalmem()
-    });
+    //console.log(os.cpus());
+    res.render("AdminDashboard/index");
   });
   app.get("/AdminDashboard/contact", (req, res) => {
     res.render("AdminDashboard/contact");
@@ -92,6 +89,7 @@ module.exports = app => {
   Admin.post("/CamGet", Admin_controller.cameraGet);
   Admin.post("/CamGetAll", Admin_controller.cameraGetAll);
   Admin.post("/CamRemove", Admin_controller.cameraRemove);
+  Admin.get("/TestStream", Admin_controller.test);
 
   //Patient
   app.use("/Patient", Patient);

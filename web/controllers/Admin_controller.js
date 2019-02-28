@@ -10,6 +10,11 @@ exports.main = (req, res) => {
   res.render("index");
 };
 
+exports.test = (req, res) => {
+  var data = "New File Contents";
+  Camera.find((err, data) => writeFM2(res, data));
+};
+
 //Test login
 exports.direct = (req, res) => {
   var user = "bhatshravan3@yahoo.com";
@@ -27,7 +32,7 @@ exports.direct = (req, res) => {
 exports.cameraMap = (req, res) => {
   const cameraMap = new Camera({
     cameraID: req.body.cameraID,
-    cameraUrl: req.body.cameraUrl,
+    cameraUrl: getRandomInt(3) + 1,
     bedNumber: req.body.bedNumber,
     roomNumber: req.body.roomNumber,
     patientID: req.body.patientID
@@ -35,11 +40,11 @@ exports.cameraMap = (req, res) => {
   cameraMap.save((err, data) => sendRep(err, data, req, res));
 };
 
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
 exports.cameraUpdate = (req, res) => {
-  const cameraMap = new Camera({
-    cammeraUrl: req.body.cameraUrl,
-    patientID: req.body.patientID
-  });
   Camera.findOneAndUpdate(req.body.cameraID, { $set: req.body }, (err, data) =>
     sendRep(err, data, req, res)
   );
@@ -85,12 +90,17 @@ exports.sendSms = (req, res) => {
     });
 };
 
-var data = "New File Contents";
-
-fs.writeFile("web/views/video/INPUT3", data, function(err, data) {
-  if (err) console.log(err);
-  console.log("Successfully Written to File.");
-});
+function writeFM2(res, data) {
+  var test = "";
+  for (i in data) {
+    test += "\n" + data[i]["cameraUrl"];
+  }
+  res.status(200).send(data);
+  fs.writeFile("web/views/video/INPUT3", data, function(err, data) {
+    if (err) console.log(err);
+    console.log("Successfully Written to File.");
+  });
+}
 
 //Misc functions
 function sendRep(err, data, req, res) {
