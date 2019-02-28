@@ -49,9 +49,43 @@ module.exports = app => {
     );
   });
   app.get("/AdminDashboard/patients", (req, res) => {
-    Patients.find((err, data) =>
-      res.render("AdminDashboard/patients", { patients: data })
-    );
+    Camera.find((err, data) => {
+      var cams = [];
+      cams[0] = "";
+      for (i in data) {
+        cams[data[i].cameraID] = data[i].status;
+      }
+      Patients.find((err2, data2) =>
+        res.render("AdminDashboard/patients", { patients: data2, camera: cams })
+      );
+    });
+  });
+
+  app.get("/AdminDashboard/changeStream", (req, res) => {
+    var cameraID = req.query.cameraID;
+    //var patientID = req.params.patientID;
+    var status = req.query.status;
+    console.log(cameraID);
+    if (status == "enable") {
+      Camera.findOneAndUpdate(
+        { cameraID: req.query.cameraID },
+        { $set: { status: "enabled" } },
+        (err, data) => {
+          logs("Camera " + cameraID + " enabled");
+          // sendRep(err, data, req, res);
+        }
+      );
+    } else {
+      Camera.findOneAndUpdate(
+        { cameraID: req.query.cameraID },
+        { $set: { status: "disabled" } },
+        (err, data) => {
+          logs("Camera " + cameraID + " disabled");
+          // sendRep(err, data, req, res);
+        }
+      );
+    }
+    res.redirect("/AdminDashboard/patients");
   });
 
   app.use("/AdminDashboard", Patient);
@@ -85,7 +119,6 @@ module.exports = app => {
     res.render("ICUDashboard/index");
   });
 
-  
   app.all("/SMS", Admin_controller.sendSms);
 
   //Users login page
@@ -106,7 +139,7 @@ module.exports = app => {
   ///Admin page
   app.use("/Admin", Admin);
   Admin.post("/Test", Admin_controller.direct);
-  Admin.post("/CamMap", requiresLogin, Admin_controller.cameraMap, authError);
+  Admin.post("/CamMap", Admin_controller.cameraMap);
   Admin.post("/CamUpdate", Admin_controller.cameraUpdate);
   Admin.post("/CamGet", Admin_controller.cameraGet);
   Admin.post("/CamGetAll", Admin_controller.cameraGetAll);
@@ -131,4 +164,17 @@ function requiresLogin(err, req, res, next) {
     console.log("error");
     return next(err);
   }
+}
+function sendRep(err, data, req, res) {
+  if (err) {
+    res.status(500).json({ err: err });
+    console.log("[] Error logging in: " + err);
+  } else {
+    //res.redirect('/index');
+    res.status(200).json(data);
+  }
+}
+
+function logs(data) {
+  console.log("[] " + data);
 }

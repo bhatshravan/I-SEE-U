@@ -32,7 +32,7 @@ exports.direct = (req, res) => {
 exports.cameraMap = (req, res) => {
   const cameraMap = new Camera({
     cameraID: req.body.cameraID,
-    cameraUrl: getRandomInt(3) + 1,
+    cameraUrl: req.body.cameraURL,
     bedNumber: req.body.bedNumber,
     roomNumber: req.body.roomNumber,
     patientID: req.body.patientID

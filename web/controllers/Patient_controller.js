@@ -28,7 +28,7 @@ function sendSms(mobile, user, password) {
     })
     .then(function(response) {
       //console.log(response);
-      log("Message sent successfully");
+      logs("Message sent successfully");
     })
     .catch(function(error) {
       console.log(error);
@@ -37,54 +37,47 @@ function sendSms(mobile, user, password) {
 
 //Patients functions
 exports.newPatient = (req, res) => {
+  var patientID = (req.body.patientID);
+  patientID = patientID.replace(" ", "");
+  //var phone = (req.body.phone);
+  //phone = phone.replace("+","").replace("(","").replace(")","").replace("-","").replace(" ", "");
+  var relPusher = req.body.relatives;
+  for (i in relPusher) {
+    var password = generator.generate({
+      length: 6,
+      uppercase: false
+    });
+    var phone = relPusher[i].phone;
+    var finalPush = "";
+    var finalUser = patientID + "@" + parseInt(phone + ".0").toString(36);
+    console.log("[ E[" + i + "] ]" + relPusher[i].name + " , " + finalUser +" , " + password+"\n");
+
+    bcrypt.hash(password, 5, function(err, hash) {
+      relPusher[i].password = hash;
+    });
+    //sendSms(phone, finalUser, password);
+  }
   const patientMap = new Patient({
     name: req.body.name,
     room: req.body.room,
-    patientID: req.body.patientID.replace(" ",""),
+    patientID: patientID,
     email: req.body.email,
     phone: req.body.phone,
     age: req.body.age,
-    bed: req.body.bed
+    bed: req.body.bed,
+    relatives: relPusher,
+    cameraID: Math.floor(Math.random() * 3 + 1)
   });
   //relatives: req.body.relatives
 
   patientMap.save((err, data) =>
     sendToPage(err, data, req, res, "AdminDashboard/addPatients")
   );
-  var relatives = req.body.relatives;
-
-  for (i in relatives) {
-    var username = req.body.patientID;
-    var name = relatives[i].name;
-    var phone = relatives[i].phone;
-
-    var password = generator.generate({
-      length: 6,
-      uppercase: false
-    });
-    var hashedPassword = "";
-    bcrypt.hash(password, 2, function(err, hash) {
-      if (err) {
-        console.log(err);
-      }
-      var finalUser = username + "@" + parseInt(phone).toString(36);
-
-      const Relative = {
-        name: name,
-        phone: phone,
-        password: hash
-      };
-
-      Patient.findOneAndUpdate(
-        { patientID: username},
-        { $push: { relativesList: Relative } },
-        { new: true },
-        (err, data) => logs("[ E[" + i + "] ]" + relatives[i].name + " , " + finalUser +" , " + password)
-      );
-      //sendSms(phone, finalUser, password);
-    });
-  }
 };
+
+exports.changeStream = (req,res) => {
+
+}
 
 exports.newRelative = (req, res) => {
   var username = req.body.patientID;
@@ -193,4 +186,12 @@ function checkLogin(req, res) {
 
 function logs(data) {
   console.log("[]: " + data);
+}
+
+function logs2(err, data) {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log("[]: " + data);
+  }
 }

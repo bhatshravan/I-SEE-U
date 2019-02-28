@@ -26,7 +26,7 @@
           <!-- Begin Page Content -->
           <div class="container-fluid">
             <!-- Page Heading -->
-            <h1 class="h3 mb-2 text-gray-800">List Patients</h1>
+            <h1 class="h3 mb-2 text-gray-800">List Patients <%= camera[1] %></h1>
 
             <!-- DataTales Example -->
             <div class="card mb-4">
@@ -46,6 +46,7 @@
                         <th>Room Number</th>
                         <th>Remove Patients</th>
                         <th>View Stream</th>
+                        <th>Status</th>
                       </tr>
                     </thead>
                     <tfoot>
@@ -56,6 +57,7 @@
                         <th>Room Number</th>
                         <th>Remove Patients</th>
                         <th>View Stream</th>
+                        <th>Status</th>
                       </tr>
                     </tfoot>
                     <tbody>
@@ -76,12 +78,29 @@
                       </td>
                       <td>
                       <!--href="../Patient/removePatient?patientID=<%= patients[i].patientID%>"-->
-                        <a href="" class="btn btn-primary btn-icon-split" >
+                        <a href="/video/stream.html?c=<%= patients[i].cameraID %>" target="_blank" class="btn btn-primary btn-icon-split" >
                           <span class="icon text-white-50">
                             <i class="fas fa-eye"></i>
                           </span>
                           <span class="text">View Stream</span>
                         </a>
+                      </td>
+                      <td>
+                          <% if(camera[patients[i].cameraID]=="disabled"){ %>
+                         <a href="changeStream?cameraID=<%= patients[i].cameraID%>&status=enable" class="btn btn-success" >
+                          <span class="icon text-white-50">
+                            <i class="fas fa-play"></i>
+                          </span>
+                          <span class="text">Enable</span>
+                        </a>
+                        <% } else{ %>
+                            <a href="changeStream?cameraID=<%= patients[i].cameraID%>&status=disable" class="btn btn-danger" >
+                             <span class="icon text-white-50">
+                               <i class="fas fa-stop"></i>
+                             </span>
+                             <span class="text">Disable</span>
+                           </a>
+                           <%}%>
                       </td>
                     </tr>
 
@@ -112,8 +131,8 @@
 </div>
     <!-- End of Page Wrapper -->
 
-    <script> 
-    function deleteItem(var id) {
+    <script>
+    function deleteItem(id) {
       alert(id);
       $.get('../Patient/removePatient?patientID=' +id);
       $(id).closest("tr").remove();

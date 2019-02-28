@@ -20,7 +20,11 @@ var CameraSchema = new mongoose.Schema({
   },
   patientID: {
     type: String
-  }
+},
+status:{
+    type: String,
+    default: "enabled"
+}
 });
 
 var Camera = mongoose.model("Camera", CameraSchema);
