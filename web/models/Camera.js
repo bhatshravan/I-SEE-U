@@ -20,10 +20,6 @@ var CameraSchema = new mongoose.Schema({
   },
   patientID: {
     type: String
-  },
-  disabled: {
-    type: String,
-    default: "false"
   }
 });
 

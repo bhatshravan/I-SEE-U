@@ -27,6 +27,10 @@ var PatientSchema = new mongoose.Schema({
   ],
   vitals: {
     type: String
+  },
+  status: {
+    type: String,
+    default: "enabled"
   }
 });
 

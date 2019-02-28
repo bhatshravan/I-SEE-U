@@ -85,8 +85,7 @@ module.exports = app => {
     res.render("ICUDashboard/index");
   });
 
-  app.post("/Login/test", Patient_controller.test);
-
+  
   app.all("/SMS", Admin_controller.sendSms);
 
   //Users login page

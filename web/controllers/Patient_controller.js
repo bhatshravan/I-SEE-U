@@ -5,10 +5,7 @@ const axios = require("axios");
 const bcrypt = require("bcrypt");
 const generator = require("generate-password");
 
-exports.test = (req, res) => {
-  var username = req.body.patientID;
-  var phone = req.body.phone;
-
+function insertAndSmsReltive(req, res, patientID, name, phone, render) {
   var password = generator.generate({
     length: 6,
     uppercase: false
@@ -20,13 +17,24 @@ exports.test = (req, res) => {
     }
     var finalUser = username + "@" + parseInt(phone).toString(36);
 
+    const Relative = {
+      name: name,
+      phone: phone,
+      password: hash
+    };
+
     console.log("Username is: " + finalUser);
     console.log("Password is: " + password);
     console.log("Hash is: " + hash);
-    res.status(200).json({ user: finalUser, password: password, hash: hash });
+    Patient.findOneAndUpdate(
+      { patientID: req.body.patientID },
+      { $push: { relativesList: Relative } },
+      { new: true },
+      (err, data) => logs("New relative added")
+    );
     //sendSms(phone, finalUser, password);
   });
-};
+}
 
 function sendSms(mobile, user, password) {
   var url = "http://api.msg91.com/api/sendhttp.php";
@@ -63,16 +71,50 @@ exports.newPatient = (req, res) => {
   const patientMap = new Patient({
     name: req.body.name,
     room: req.body.room,
-    patientID: req.body.patientID,
+    patientID: req.body.patientID.replace(" ",""),
     email: req.body.email,
     phone: req.body.phone,
     age: req.body.age,
-    bed: req.body.bed,
-    relatives: req.body.relatives
+    bed: req.body.bed
   });
+  //relatives: req.body.relatives
+
   patientMap.save((err, data) =>
     sendToPage(err, data, req, res, "AdminDashboard/addPatients")
   );
+  var relatives = req.body.relatives;
+
+  for (i in relatives) {
+    var username = req.body.patientID;
+    var name = relatives[i].name;
+    var phone = relatives[i].phone;
+
+    var password = generator.generate({
+      length: 6,
+      uppercase: false
+    });
+    var hashedPassword = "";
+    bcrypt.hash(password, 2, function(err, hash) {
+      if (err) {
+        console.log(err);
+      }
+      var finalUser = username + "@" + parseInt(phone).toString(36);
+
+      const Relative = {
+        name: name,
+        phone: phone,
+        password: hash
+      };
+
+      Patient.findOneAndUpdate(
+        { patientID: username},
+        { $push: { relativesList: Relative } },
+        { new: true },
+        (err, data) => logs("[ E[" + i + "] ]" + relatives[i].name + " , " + finalUser +" , " + password)
+      );
+      //sendSms(phone, finalUser, password);
+    });
+  }
 };
 
 exports.newRelative = (req, res) => {
