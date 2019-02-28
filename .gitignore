@@ -11,6 +11,8 @@ creds.js
 sample.mkv
 sample.mp4
 
+.vscode
+
 # Runtime data
 pids
 *.pid

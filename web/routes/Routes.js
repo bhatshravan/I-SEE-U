@@ -39,7 +39,7 @@ module.exports = app => {
     res.render("AdminDashboard/contact");
   });
   app.get("/AdminDashboard/addPatients", (req, res) => {
-    res.render("AdminDashboard/addPatients");
+    res.render("AdminDashboard/addPatients", { Success: null });
   });
   app.get("/AdminDashboard/cameras", (req, res) => {
     Camera.find((err, data) =>
@@ -52,7 +52,7 @@ module.exports = app => {
     );
   });
 
-  app.get("/PatientDashboard/index", (req, res) => {
+  app.get("/PatientDashboard", (req, res) => {
     res.render("PatientDashboard/index");
   });
   app.get("/PatientDashboard/documents", (req, res) => {
@@ -92,7 +92,7 @@ module.exports = app => {
   Admin.get("/TestStream", Admin_controller.test);
 
   //Patient
-  app.use("/Patient", Patient);
+  app.use("/AdminDashboard", Patient);
   Patient.post("/newPatient", Patient_controller.newPatient);
   Patient.post("/newRelative", Patient_controller.newRelative);
   Patient.post("/updateMinutes", Patient_controller.updateMinutes);
