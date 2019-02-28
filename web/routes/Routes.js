@@ -31,8 +31,10 @@ module.exports = app => {
     res.render("register");
   });
 
+  app.get("/AdminDashboard", (req, res) => {
+    res.render("AdminDashboard/index");
+  });
   app.get("/AdminDashboard/index", (req, res) => {
-    //console.log(os.cpus());
     res.render("AdminDashboard/index");
   });
   app.get("/AdminDashboard/contact", (req, res) => {
@@ -52,7 +54,21 @@ module.exports = app => {
     );
   });
 
+  app.use("/AdminDashboard", Patient);
+  Patient.post("/newPatient", Patient_controller.newPatient);
+  Patient.post("/newRelative", Patient_controller.newRelative);
+  Patient.post("/updateMinutes", Patient_controller.updateMinutes);
+  Patient.post("/modifyPatient", Patient_controller.modifyPatient);
+  Patient.post("/removeRelative", Patient_controller.removeRelative);
+  Patient.post("/removeRelativeAll", Patient_controller.removeRelativeAll);
+  Patient.post("/patientGet", Patient_controller.removeRelative);
+  Patient.post("/patientGetAll", Patient_controller.PatientGetAll);
+  Patient.get("/removePatient", Patient_controller.removePatient);
+
   app.get("/PatientDashboard", (req, res) => {
+    res.render("PatientDashboard/index");
+  });
+  app.get("/PatientDashboard/index", (req, res) => {
     res.render("PatientDashboard/index");
   });
   app.get("/PatientDashboard/documents", (req, res) => {
@@ -60,6 +76,13 @@ module.exports = app => {
   });
   app.get("/PatientDashboard/bestWishes", (req, res) => {
     res.render("PatientDashboard/bestWishes");
+  });
+
+  app.get("/ICUDashboard", (req, res) => {
+    res.render("ICUDashboard/index");
+  });
+  app.get("/ICUDashboard/index", (req, res) => {
+    res.render("ICUDashboard/index");
   });
 
   app.post("/Login/test", Patient_controller.test);
@@ -92,16 +115,6 @@ module.exports = app => {
   Admin.get("/TestStream", Admin_controller.test);
 
   //Patient
-  app.use("/AdminDashboard", Patient);
-  Patient.post("/newPatient", Patient_controller.newPatient);
-  Patient.post("/newRelative", Patient_controller.newRelative);
-  Patient.post("/updateMinutes", Patient_controller.updateMinutes);
-  Patient.post("/modifyPatient", Patient_controller.modifyPatient);
-  Patient.post("/removeRelative", Patient_controller.removeRelative);
-  Patient.post("/removeRelativeAll", Patient_controller.removeRelativeAll);
-  Patient.post("/patientGet", Patient_controller.removeRelative);
-  Patient.post("/patientGetAll", Patient_controller.PatientGetAll);
-  Patient.get("/removePatient", Patient_controller.removePatient);
 
   //Error page
   app.get("*", (req, res) => {
