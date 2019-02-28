@@ -105,6 +105,20 @@
                                             </div>
                                         </div>
                                         <div class="form-group row">
+                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                <input type="text" class="form-control form-control-patient" id="relativeName1" name="relatives[0][name]" placeholder="Relative Name" />
+                                            </div>
+                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                <input type="phone" class="form-control form-control-patient" id="relativePhone1" name="relatives[0][phone]" placeholder="Phone No" />
+                                            </div>
+                                        </div>
+                                        <div id="placeholder-box"></div>
+                                        <div class="form-group row">
+                                            <div class="col-sm-12 ">
+                                                <input id="addRelatives" class="form-control form-control-patient btn-outline-secondary" type="button" value="Add Relatives" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
                                             <div class="col-sm-12 ">
                                                 <input class="form-control form-control-patient btn-primary" type="submit" value="Submit" />
                                             </div>
@@ -132,7 +146,20 @@
         <!-- End of Content Wrapper -->
     </div>
     <!-- End of Page Wrapper -->
+    <script>
+    var addBtn = document.getElementById("addRelatives");
 
+    var box = document.getElementById("placeholder-box");
+    var count = 1;
+    addBtn.addEventListener("click", function(event) {
+        count++;
+        box.innerHTML +=
+            '<div class=\"form-group row\">\r\n        <div class=\"col-sm-6 mb-3 mb-sm-0\">\r\n            <input\r\n            type=\"text\"\r\n            class=\"form-control form-control-patient\"\r\n            id=\"relativename\"\r\n            placeholder=\"Relative Name\"\r\nname=\"relatives['
+            +count +
+            '][name]\"\r\n            \/>\r\n        <\/div>\r\n        <div class=\"col-sm-6 mb-3 mb-sm-0\">\r\n            <input\r\n            type=\"phone\"\r\n            class=\"form-control form-control-patient\"\r\n            id=\"exampleRepeatPassword\"\r\n            placeholder=\"Phone No\"\r\nname=\"relatives[' +
+            +count + '][phone]\"\r\n            \/>\r\n        <\/div>\r\n    <\/div>';
+    });
+    </script>
     <!-- Scroll to Top Button-->
     <% include ./partials/footer%>
     

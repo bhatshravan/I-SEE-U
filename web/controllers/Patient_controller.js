@@ -67,7 +67,8 @@ exports.newPatient = (req, res) => {
     email: req.body.email,
     phone: req.body.phone,
     age: req.body.age,
-    bed: req.body.bed
+    bed: req.body.bed,
+    relatives: req.body.relatives
   });
   patientMap.save((err, data) =>
     sendToPage(err, data, req, res, "AdminDashboard/addPatients")
@@ -165,6 +166,7 @@ function sendRep(err, data, req, res) {
 
 function sendToPage(err, data, req, res, redirect) {
   if (err) {
+    console.log("[] Error logging in: " + err);
     res.render(redirect, { Success: false });
   } else {
     res.render(redirect, { Success: true });

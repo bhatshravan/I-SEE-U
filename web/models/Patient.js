@@ -11,6 +11,9 @@ var PatientSchema = new mongoose.Schema({
   bed: {
     type: String
   },
+  phone: {
+    type: String
+  },
   patientID: {
     type: String,
     required: true,
@@ -19,14 +22,10 @@ var PatientSchema = new mongoose.Schema({
   relatives: [
     {
       name: String,
-      phone: Number,
-      password: String
+      phone: String
     }
   ],
   vitals: {
-    type: String
-  },
-  documents: {
     type: String
   }
 });
