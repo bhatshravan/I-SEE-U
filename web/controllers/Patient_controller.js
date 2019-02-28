@@ -5,37 +5,6 @@ const axios = require("axios");
 const bcrypt = require("bcrypt");
 const generator = require("generate-password");
 
-function insertAndSmsReltive(req, res, patientID, name, phone, render) {
-  var password = generator.generate({
-    length: 6,
-    uppercase: false
-  });
-  var hashedPassword = "";
-  bcrypt.hash(password, 2, function(err, hash) {
-    if (err) {
-      console.log(err);
-    }
-    var finalUser = username + "@" + parseInt(phone).toString(36);
-
-    const Relative = {
-      name: name,
-      phone: phone,
-      password: hash
-    };
-
-    console.log("Username is: " + finalUser);
-    console.log("Password is: " + password);
-    console.log("Hash is: " + hash);
-    Patient.findOneAndUpdate(
-      { patientID: req.body.patientID },
-      { $push: { relativesList: Relative } },
-      { new: true },
-      (err, data) => logs("New relative added")
-    );
-    //sendSms(phone, finalUser, password);
-  });
-}
-
 function sendSms(mobile, user, password) {
   var url = "http://api.msg91.com/api/sendhttp.php";
 
