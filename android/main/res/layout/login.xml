@@ -45,16 +45,28 @@
                     android:singleLine="true"
                     android:hint="User id" />
 
-                <EditText
-                    android:id="@+id/password"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:singleLine="true"
-                    android:drawableLeft="@drawable/ic_lock_black_24dp"
-                    android:drawableTint="#FF4081"
-                    android:hint="Password"
-                    android:inputType="numberPassword" />
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:singleLine="true"
+                android:drawableLeft="@drawable/ic_lock_black_24dp"
+                android:drawableTint="#FF4081"
+                android:hint="Password"
+                android:inputType="textPassword" />
+
+
+            <EditText
+                android:id="@+id/url"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:singleLine="true"
+                android:drawableLeft="@drawable/ic_lock_black_24dp"
+                android:drawableTint="#FF4081"
+                android:hint="Test URL"
+                android:inputType="text" />
 
             <TextView
                 android:layout_width="wrap_content"

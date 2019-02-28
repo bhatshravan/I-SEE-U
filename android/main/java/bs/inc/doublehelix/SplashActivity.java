@@ -18,7 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class SplashActivity extends AppCompatActivity {
 
 
-    private static int SPLASH_TIME_OUT = 500;
+    private static int SPLASH_TIME_OUT = 100;
     private LinearLayout splashLinearLayout;
     private ImageView splashImage;
 
@@ -35,15 +35,15 @@ public class SplashActivity extends AppCompatActivity {
 
         splashImage = findViewById(R.id.splashimageView);
 
-        YoYo.with(Techniques.BounceIn)
-                .duration(1000)
-                .repeat(1)
+        YoYo.with(Techniques.Wave)
+                .duration(700)
+                .repeat(22)
                 .playOn(findViewById(R.id.splashimageView));
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent i = new Intent(SplashActivity.this, MainActivity.class);
+                Intent i = new Intent(SplashActivity.this, LoginActivity.class);
                 startActivity(i);
                 finish();
             }

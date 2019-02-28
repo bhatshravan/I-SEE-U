@@ -90,15 +90,61 @@ exports.sendSms = (req, res) => {
     });
 };
 
-function writeFM2(res, data) {
-  var test = "";
-  for (i in data) {
-    test += "\n" + data[i]["cameraUrl"];
+exports.changeStream = (req, res) => {
+  var cameraID = req.query.cameraID;
+  //var patientID = req.params.patientID;
+  var status = req.query.status;
+  console.log(cameraID);
+  if (status == "enable") {
+    Camera.findOneAndUpdate(
+      { cameraID: req.query.cameraID },
+      { $set: { status: "enabled" } },
+      (err, data) => {
+        logs("Camera " + cameraID + " enabled");
+        // sendRep(err, data, req, res);
+        writeFM2();
+      }
+    );
+  } else {
+    Camera.findOneAndUpdate(
+      { cameraID: req.query.cameraID },
+      { $set: { status: "disabled" } },
+      (err, data) => {
+        logs("Camera " + cameraID + " disabled");
+        // sendRep(err, data, req, res);
+        writeFM2();
+      }
+    );
   }
-  res.status(200).send(data);
-  fs.writeFile("web/views/video/INPUT3", data, function(err, data) {
-    if (err) console.log(err);
-    console.log("Successfully Written to File.");
+
+  res.redirect("/AdminDashboard/patients");
+};
+
+function writeFM2() {
+  var data = "";
+  Camera.find((err2, data2) => {
+    var cams = [];
+    for (i in data2) {
+      if (i == 0);
+      else {
+        data += "\n";
+      }
+      var id = data2[i].cameraID;
+      data +=
+        "camstream" +
+        id +
+        "," +
+        data2[i].cameraUrl +
+        ",streamcam" +
+        id +
+        "," +
+        data2[i].status;
+    }
+    logs(data2);
+    fs.writeFile("web/views/video/INPUT", data, function(err, data) {
+      if (err) console.log(err);
+      console.log("Successfully Written to File.");
+    });
   });
 }
 

@@ -45,9 +45,9 @@ public class MainActivity extends AppCompatActivity {
 
         AHBottomNavigation bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
 
-        AHBottomNavigationItem item1 = new AHBottomNavigationItem("Stream", R.drawable.ic_play_arrow_black_24dp, R.color.colorBlack);
-        AHBottomNavigationItem item2 = new AHBottomNavigationItem("Wishes", R.drawable.ic_play_arrow_black_24dp, R.color.colorBlack);
-        AHBottomNavigationItem item3 = new AHBottomNavigationItem("Doctor notes", R.drawable.ic_home_black_24dp, R.color.colorBlack);
+        AHBottomNavigationItem item1 = new AHBottomNavigationItem("Vitals", R.drawable.ic_heart_24dp, R.color.colorBlack);
+        AHBottomNavigationItem item2 = new AHBottomNavigationItem("Wishes", R.drawable.ic_cake_black_24dp, R.color.colorBlack);
+        AHBottomNavigationItem item3 = new AHBottomNavigationItem("Doctor notes", R.drawable.ic_assignment_black_24dp, R.color.colorBlack);
 
         bottomNavigation.addItem(item1);
         bottomNavigation.addItem(item2);

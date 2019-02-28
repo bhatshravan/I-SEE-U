@@ -61,32 +61,7 @@ module.exports = app => {
     });
   });
 
-  app.get("/AdminDashboard/changeStream", (req, res) => {
-    var cameraID = req.query.cameraID;
-    //var patientID = req.params.patientID;
-    var status = req.query.status;
-    console.log(cameraID);
-    if (status == "enable") {
-      Camera.findOneAndUpdate(
-        { cameraID: req.query.cameraID },
-        { $set: { status: "enabled" } },
-        (err, data) => {
-          logs("Camera " + cameraID + " enabled");
-          // sendRep(err, data, req, res);
-        }
-      );
-    } else {
-      Camera.findOneAndUpdate(
-        { cameraID: req.query.cameraID },
-        { $set: { status: "disabled" } },
-        (err, data) => {
-          logs("Camera " + cameraID + " disabled");
-          // sendRep(err, data, req, res);
-        }
-      );
-    }
-    res.redirect("/AdminDashboard/patients");
-  });
+  app.get("/AdminDashboard/changeStream", Admin_controller.changeStream);
 
   app.use("/AdminDashboard", Patient);
   Patient.post("/newPatient", Patient_controller.newPatient);
