@@ -31,7 +31,7 @@ app.use(cors());
 app.options("*", cors());
 
 //BodyParser and logger with morgan
-//app.use(logger("dev"));
+app.use(logger("dev"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(upload.array());

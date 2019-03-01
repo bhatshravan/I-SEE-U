@@ -4,6 +4,7 @@ const User_controller = require("../controllers/Users_controllers");
 const Stream_controller = require("../controllers/Stream_controller");
 const Admin_controller = require("../controllers/Admin_controller");
 const Patient_controller = require("../controllers/Patient_controller");
+const Api_controller = require("../controllers/api");
 var os = require("os-utils");
 const Camera = require("../models/Camera");
 const Patients = require("../models/Patient");
@@ -18,6 +19,7 @@ module.exports = app => {
   const Stream = express.Router();
   const Admin = express.Router();
   const Patient = express.Router();
+  const Api = express.Router();
 
   ///Login page
   app.all("/", (req, res) => {
@@ -87,14 +89,13 @@ module.exports = app => {
     res.render("PatientDashboard/bestWishes");
   });
 
-  app.get("/ICUDashboard", (req, res) => {
-    res.render("ICUDashboard/index");
-  });
   app.get("/ICUDashboard/index", (req, res) => {
     res.render("ICUDashboard/index");
   });
 
   app.all("/SMS", Admin_controller.sendSms);
+
+  app.post("/api/login", Api_controller.login);
 
   //Users login page
   app.use("/Users", Users);

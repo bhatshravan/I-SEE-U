@@ -1,5 +1,6 @@
 var User = require("../models/User");
 var Patient = require("../models/Patient");
+var bcrypt = require("bcrypt");
 
 exports.authenticate = (req, res) => {
   if (req.body.email && req.body.password) {
@@ -27,20 +28,45 @@ exports.authenticate = (req, res) => {
   }
 };
 
-exports.mobile = (req, res) => {
+exports.login = (req, res) => {
   var user = req.body.email;
   var password = req.body.password;
 
   var users = user.split("@");
   var PatientID = "";
 
-  Patient.find({ patientID: users[0] }, (err, data) => {
-    try {
-      // data[0].relatives[0]
-    } catch (err) {
-      res.send(200).json({ Success: false });
+  //Miriam Mcgee , Quisquam@46mu7zr , zilxzb
+  var finalPhone = parseInt(users[1], 36);
+  var flag = false;
+  Patient.findOne({ patientID: users[0] }, (err, data) => {
+    if (err) {
+      res.status(200).json({ Success: false, error: "No such Patient found" });
+    } else {
+      var relatives = data.relatives;
+      for (i in relatives) {
+        if (relatives[i].phone == finalPhone && i != "_parent") {
+          flag = true;
+          // console.log(finalPhone);
+          bcrypt.compare(password, relatives[i].password, (err, result) => {
+            if (result === true) {
+              res.status(200).json({
+                patientID: data.patientID,
+                cameraID: data.cameraID,
+                phone: relatives[i].phone
+              });
+            } else {
+              res
+                .status(200)
+                .json({ Success: false, err: "Password incorrect" });
+            }
+          });
+        }
+      }
+      if (!flag)
+        res.status(200).json({ Success: false, error: "No user found" });
     }
   });
+  // res.send(200).json({ Success: false, error: "Err" });
 };
 
 function sendRep(data, err, req, res) {
