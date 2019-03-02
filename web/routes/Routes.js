@@ -93,6 +93,10 @@ module.exports = app => {
     res.render("ICUDashboard/index");
   });
 
+  app.get("/ICUDashboard/", (req, res) => {
+    res.render("ICUDashboard/index");
+  });
+
   app.get("/ICUDashboard/patients", (req, res) => {
     res.render("ICUDashboard/patients");
   });
@@ -100,6 +104,11 @@ module.exports = app => {
   app.get("/ICUDashboard/stream", (req, res) => {
     res.render("ICUDashboard/stream");
   });
+
+  app.get("/ICUDashboard/profile", (req, res) => {
+    res.render("ICUDashboard/profile");
+  });
+
 
   app.all("/SMS", Admin_controller.sendSms);
 
