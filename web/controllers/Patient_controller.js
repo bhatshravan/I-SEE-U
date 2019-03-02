@@ -37,7 +37,7 @@ function sendSms(mobile, user, password) {
 
 //Patients functions
 exports.newPatient = (req, res) => {
-  var patientID = (req.body.patientID);
+  var patientID = req.body.patientID;
   patientID = patientID.replace(" ", "");
   //var phone = (req.body.phone);
   //phone = phone.replace("+","").replace("(","").replace(")","").replace("-","").replace(" ", "");
@@ -50,34 +50,42 @@ exports.newPatient = (req, res) => {
     var phone = relPusher[i].phone;
     var finalPush = "";
     var finalUser = patientID + "@" + parseInt(phone + ".0").toString(36);
-    console.log("[ E[" + i + "] ]" + relPusher[i].name + " , " + finalUser +" , " + password+"\n");
+    console.log(
+      "[ E[" +
+        i +
+        "] ]" +
+        relPusher[i].name +
+        " , " +
+        finalUser +
+        " , " +
+        password +
+        "\n"
+    );
 
-    bcrypt.hash(password, 5, function(err, hash) {
+    bcrypt.hash(password, 2, function(err, hash) {
       relPusher[i].password = hash;
+      const patientMap = new Patient({
+        name: req.body.name,
+        room: req.body.room,
+        patientID: patientID,
+        email: req.body.email,
+        phone: req.body.phone,
+        age: req.body.age,
+        bed: req.body.bed,
+        relatives: relPusher,
+        cameraID: Math.floor(Math.random() * 3 + 1)
+      });
+      //relatives: req.body.relatives
+
+      patientMap.save((err, data) =>
+        sendToPage(err, data, req, res, "AdminDashboard/addPatients")
+      );
     });
     //sendSms(phone, finalUser, password);
   }
-  const patientMap = new Patient({
-    name: req.body.name,
-    room: req.body.room,
-    patientID: patientID,
-    email: req.body.email,
-    phone: req.body.phone,
-    age: req.body.age,
-    bed: req.body.bed,
-    relatives: relPusher,
-    cameraID: Math.floor(Math.random() * 3 + 1)
-  });
-  //relatives: req.body.relatives
-
-  patientMap.save((err, data) =>
-    sendToPage(err, data, req, res, "AdminDashboard/addPatients")
-  );
 };
 
-exports.changeStream = (req,res) => {
-
-}
+exports.changeStream = (req, res) => {};
 
 exports.newRelative = (req, res) => {
   var username = req.body.patientID;

@@ -23,12 +23,12 @@ var PatientSchema = new mongoose.Schema({
     {
       name: String,
       phone: String,
-      password: { type: String, required:false }
+      password: String
     }
   ],
-  cameraID:{
+  cameraID: {
     type: Number,
-    default:2
+    default: 2
   },
   vitals: {
     type: String
