@@ -103,6 +103,10 @@ module.exports = app => {
     res.render("ICUDashboard/stream");
   });
 
+  app.get("/ICUDashboard/profile", (req, res) => {
+    res.render("ICUDashboard/profile");
+  });
+
   app.all("/SMS", Admin_controller.sendSms);
 
   app.post("/api/login", Api_controller.login);
