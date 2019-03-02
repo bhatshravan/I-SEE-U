@@ -1,6 +1,10 @@
 var mongoose = require("mongoose");
-var DoctorSchema = new mongoose.Schema({
+var NurseSchema = new mongoose.Schema({
   name: {
+    type: String,
+    required: true
+  },
+  nurseID: {
     type: String,
     required: true
   },
@@ -11,13 +15,9 @@ var DoctorSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true
-  },
-  doctorID: {
-    type: String,
-    required: true
   }
 });
 
-var Doctor = mongoose.model("Doctor", DoctorSchema);
+var Nurse = mongoose.model("Nurse", NurseSchema);
 
-module.exports = Doctor;
+module.exports = Nurse;
