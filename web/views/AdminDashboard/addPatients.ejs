@@ -55,7 +55,7 @@
               </div>
               <div class="x_content">
                 <br />
-                <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+                <form id="demo-form2" method="post" action="newPatient" data-parsley-validate class="form-horizontal form-label-left">
                 <% if (Success == true) {%>
                 <div class="col-lg-8 mb-4">
                     <div class="card bg-success text-white shadow">
@@ -79,7 +79,7 @@
                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Name <span class="required">*</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                      <input type="text" id="name" required="required" class="form-control col-md-7 col-xs-12">
+                      <input type="text" id="name" required="required" class="form-control col-md-7 col-xs-12" name="name">
                     </div>
                   </div>
                   <div class="form-group">
@@ -97,26 +97,10 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Gender</label>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                      <div id="gender" class="btn-group" data-toggle="buttons">
-                        <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                          <input type="radio" name="gender" value="male" name="gender"> &nbsp; Male &nbsp;
-                        </label>
-                        <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                          <input type="radio" name="gender" value="female" name="gender"> Female
-                        </label>
-                        <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                          <input type="radio" name="gender" value="others" name="gender"> Others
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Patient ID<span class="required">*</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                      <input id="patientID" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text" name="patientID">
+                      <input id="patientID" maxlength="6" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text" name="patientID">
                     </div>
                   </div>
                   <div class="form-group">
@@ -144,14 +128,14 @@
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Primary Guardian Name<span class="required">*</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                      <input id="" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text" name="relatives[0][name]">
+                      <input id="mainName" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text" name="mainName">
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Primary Guardian Phone<span class="required">*</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                      <input id="" class="date-picker form-control col-md-7 col-xs-12" required="required" type="phone" name="relatives[0][name]">
+                      <input id="mainPhone" class="date-picker form-control col-md-7 col-xs-12" required="required" type="phone" name="mainPhone">
                     </div>
                   </div>
                   <div id="placeholder-box"></div>
