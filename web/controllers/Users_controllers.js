@@ -23,7 +23,8 @@ exports.create = (req, res) => {
     //req.body.passwordConf)
     var UserData = {
       email: req.body.email,
-      password: req.body.password
+      password: req.body.password,
+      type: req.body.type
     };
     logs(UserData + " registered");
 
