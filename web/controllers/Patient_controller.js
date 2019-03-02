@@ -88,32 +88,79 @@ exports.PatientGetAll = (req, res) => {
 
 //Patients functions 9738267219
 exports.newPatient = (req, res) => {
+  var relPusher = req.body.relatives;
+  console.log(relPusher[0]);
+  //console.log("---\n" + req.body.relatives);
   var patientID = req.body.patientID;
-  console.log(req.body);
-  patientID = patientID.replace(" ", "");
+  patientID = patientID.replace(" ", "").toLowerCase();
 
-  const patientMap = new Patient({
-    name: req.body.name,
-    room: req.body.room,
-    patientID: patientID.toLowerCase().replace(" ", ""),
-    email: req.body.email,
-    phone: req.body.phone,
-    age: req.body.age,
-    bed: req.body.bed,
-    mainPhone: req.body.mainPhone,
-    mainName: req.body.mainName,
-    cameraID: Math.floor(1),
-    relatives: req.body.relatives
-  });
-
-  patientMap.save((err, data) => {
-    sendToPage(err, data, req, res, "AdminDashboard/addPatients");
-  });
   var finalUser =
-    req.body.patientID + "@" + parseInt(req.body.mainPhone + ".0").toString(36);
-  var password = Math.floor(Math.random() * 9999 + 1);
-  sendSms(req.body.mainPhone, finalUser, password);
+    patientID + "@" + parseInt(req.body.mainPhone + ".0").toString(36);
+  var passwords = generator.generate({
+    length: 6,
+    uppercase: false
+  });
+  //console.log(passwords);
+  bcrypt.hash(passwords, 10, (err, hash) => {
+    if (err) {
+      console.log(err);
+    } else {
+      const patientMap = new Patient({
+        name: req.body.name,
+        room: req.body.room,
+        mainPassword: hash,
+        patientID: patientID,
+        email: req.body.email,
+        phone: req.body.phone,
+        age: req.body.age,
+        bed: req.body.bed,
+        mainPhone: req.body.mainPhone,
+        mainName: req.body.mainName,
+        cameraID: Math.floor(Math.random() * 3 + 1),
+        relatives: req.body.relatives
+      });
+
+      patientMap.save((err, data) => {
+        console.log(finalUser + " , " + passwords);
+        for (i in req.body.relatives) {
+          console.log("[" + i + "]: " + relPusher[0].name);
+          //addRelative(relPusher[i]);
+        }
+        sendToPage(err, data, req, res, "AdminDashboard/addPatients");
+      });
+
+      //sendSms(req.body.mainPhone, finalUser, password);
+    }
+  });
 };
+function addRelative(patientID, relatives) {
+  console.log(patientID + relatives);
+  var relPusher = relatives;
+  var rpassword = generator.generateMultiple(3, {
+    length: 6,
+    uppercase: false
+  });
+  var rotp = Math.floor(Math.random() * 99999 + 9999);
+  var rphone = relatives.phone;
+  var finalPush = "";
+  var rfinalUser = patientID + "@" + parseInt(rphone + ".0").toString(36);
+
+  console.log(relPusher.name + " , " + finalUser + " , " + password + "\n");
+
+  bcrypt.hash(rpassword, 5, function(err, hash2) {
+    relPusher.password = hash2;
+    relPusher.otp = rotp;
+    console.log(relPusher);
+
+    Patient.findOneAndUpdate(
+      { patientID: patientID },
+      { $push: { relatives: relPusher } },
+      { new: true },
+      (err, data) => sendRep(err, data, req, res)
+    );
+  });
+  res.status(200).json({ suc: true });
+}
 
 //Misc functions
 function sendRep(err, data, req, res) {
@@ -133,22 +180,21 @@ function sendToPage(err, data, req, res, redirect) {
     res.render(redirect, { Success: true });
   }
 }
-function sendToPage3(
-  phone,
-  finalUser,
-  password,
-  err,
-  data,
-  req,
-  res,
-  redirect
-) {
+
+function sendToPage2(patientID, err, data, req, res, redirect) {
   if (err) {
     console.log("[] Error logging in: " + err);
     res.render(redirect, { Success: false });
   } else {
+    var relPusher = req.body.relatives;
+    console.log(relPusher[0]);
+
+    for (i in relPusher) {
+      console.log("[REL]: " + relPusher[i]);
+      addRelative(relPusher[i]);
+    }
+
     res.render(redirect, { Success: true });
-    //sendSms(phone, finalUser, password);
   }
 }
 

@@ -29,13 +29,19 @@ var PatientSchema = new mongoose.Schema({
   },
   mainPassword: {
     type: String,
-    default: "ninna"
+    default: "teste"
+  },
+  mainChanged: {
+    type: String,
+    default: "no"
   },
   relatives: [
     {
       name: String,
       phone: String,
-      password: { type: String, default: "ninna" }
+      password: String,
+      changed: { type: String, default: "no" },
+      otp: { type: String, default: "1029" }
     }
   ],
   cameraID: {
