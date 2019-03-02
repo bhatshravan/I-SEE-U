@@ -59,7 +59,23 @@ exports.authenticate = (req, res) => {
         req.session.userEmail = user.email;
         req.session.userId = user._id;
         logs(user._id + " successfully logged in");
-        res.redirect("/AdminDashboard");
+        switch (user.type) {
+          case "ADMIN":
+            res.redirect("/AdminDashboard");
+            break;
+          case "DOCTOR":
+            res.redirect("/DoctorDashboard");
+            break;
+          case "NURSE":
+            res.redirect("/ICUDashboard");
+            break;
+          case "USER":
+            res.redirect("/UserDashboard");
+            break;
+          default:
+            res.redirect("/Login");
+          // code block
+        }
         //return res.status(200).json({ success:true , msg: "User logged in"})
       }
     });
