@@ -35,7 +35,9 @@ var PatientSchema = new mongoose.Schema({
     {
       name: String,
       phone: String,
-      password: String
+      password: String,
+      otp: String,
+      timeout: String
     }
   ],
   cameraID: {

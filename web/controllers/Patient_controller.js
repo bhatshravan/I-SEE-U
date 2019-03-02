@@ -253,7 +253,7 @@ function sendSmsInitial(mobile, user, password) {
 
   logs("Message sent to: " + mobile);
   var message =
-    "You have been registered for I-SEE-U Facility at Apollo Hospitals\nUsername:" +
+    "You have been registered for Streaming Facility at Apollo Hospitals\nUsername:" +
     user +
     "\nPassword:" +
     password;
@@ -278,11 +278,13 @@ function sendSmsInitial(mobile, user, password) {
     });
 }
 
-function sendSmsOTP(mobile, otp, from, otp) {
+function sendSmsOTP(mobile, fromMobile, from, otp) {
   message =
     "Your assoicate " +
     from +
-    " wants to view the stream.\nTo allow access, please ask them to enter the\nOTP: ";
+    " wants to view the stream with mobile no " +
+    fromMobile +
+    "\nTo allow access, please ask them to enter the\nOTP: ";
 
   var url = "http://api.msg91.com/api/sendhttp.php";
 
