@@ -91,8 +91,8 @@ module.exports = app => {
     res.render("PatientDashboard/bestWishes");
   });
 
-  app.get("/ICUDashboard/index", (req, res) => {
-    res.render("ICUDashboard/index");
+  app.get("/ICUDashboard/", (req, res) => {
+    res.render("ICUDashboard/patients");
   });
 
   app.get("/ICUDashboard/patients", (req, res) => {
