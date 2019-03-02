@@ -19,19 +19,37 @@ var PatientSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
+  mainName: {
+    type: String,
+    required: true
+  },
+  mainPhone: {
+    type: String,
+    required: true
+  },
+  mainPassword: {
+    type: String,
+    required: true
+  },
   relatives: [
     {
       name: String,
       phone: String,
-      password: { type: String, required:false }
+      password: String
     }
   ],
-  cameraID:{
+  cameraID: {
     type: Number,
-    default:2
+    default: 2
   },
   vitals: {
     type: String
+  },
+  otp: {
+    type: String
+  },
+  otpTime: {
+    type: Number
   },
   status: {
     type: String,

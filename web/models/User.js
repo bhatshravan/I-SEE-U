@@ -19,7 +19,11 @@ var UserSchema = new mongoose.Schema({
   type: {
     type: String,
     required: true,
+<<<<<<< HEAD
     enum: ["ADMIN", "USER", "DOCTOR", "NURSE"],
+=======
+    enum: ["ADMIN", "USER", "DCR"],
+>>>>>>> e2bb1c9cb53d3bb1c39b11f1e8d18534174dfab9
     default: "USER"
   }
 });
