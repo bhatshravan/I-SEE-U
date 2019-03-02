@@ -35,7 +35,7 @@ var PatientSchema = new mongoose.Schema({
     {
       name: String,
       phone: String,
-      password: {type: String, default:"ninna"}
+      password: { type: String, default: "ninna" }
     }
   ],
   cameraID: {

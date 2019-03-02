@@ -28,6 +28,29 @@ exports.authenticate = (req, res) => {
   }
 };
 
+exports.authenticate2 = (req, res) => {
+  var patientID = req.body.patientID;
+  var finalPhone = req.body.phone;
+  User.findOne({ patientID: req.body.patientID }, (err, data) => {
+    var relatives = data.relatives;
+    for (i in relatives) {
+      if (relatives[i].phone == finalPhone) {
+        var otp = req.body.otp;
+        if ((otp = relatives[i].otp)) {
+          res.status(200).json({
+            Success: true,
+            patientID: data.patientID,
+            cameraID: data.cameraID,
+            phone: finalPhone
+          });
+        } else {
+          res.status(200).json({ Success: false, err: "Wrong otp" });
+        }
+      }
+    }
+  });
+};
+
 exports.login = (req, res) => {
   var user = req.body.email;
   var password = req.body.password;
@@ -59,7 +82,6 @@ exports.login = (req, res) => {
                 res.status(200).json({
                   Success: true,
                   patientID: data.patientID,
-                  cameraID: data.cameraID,
                   phone: finalPhone
                 });
               } else {

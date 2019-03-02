@@ -46,10 +46,22 @@ function readInput() {
             //console.log("Change detected in: " + array[i]);
             stopItnow(i);
             var insplits = array[i].split(",");
+            console.log(insplits[1]);
 
             if (insplits[3] == "disabled") {
               console.log("[STREAM]: DISABLED " + insplits[0]);
             } else {
+              console.log(
+                'web/views/video/stream.sh "' +
+                  insplits[0] +
+                  '" "' +
+                  "http://192.168.43.33:8080/video" +
+                  '" "' +
+                  config.URL +
+                  '" "' +
+                  insplits[2] +
+                  '"'
+              );
               childProcess[i] = shell.exec(
                 'web/views/video/stream.sh "' +
                   insplits[0] +

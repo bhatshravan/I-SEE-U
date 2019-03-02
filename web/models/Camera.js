@@ -6,8 +6,7 @@ var CameraSchema = new mongoose.Schema({
   },
   cameraUrl: {
     type: String,
-    required: true,
-    unique: true
+    required: true
   },
   bedNumber: {
     type: Number,

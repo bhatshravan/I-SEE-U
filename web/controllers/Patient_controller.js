@@ -5,7 +5,6 @@ const axios = require("axios");
 const bcrypt = require("bcrypt");
 const generator = require("generate-password");
 
-
 exports.changeStream = (req, res) => {};
 
 exports.newRelative = (req, res) => {
@@ -92,37 +91,29 @@ exports.newPatient = (req, res) => {
   var patientID = req.body.patientID;
   console.log(req.body);
   patientID = patientID.replace(" ", "");
- 
-      const patientMap = new Patient({
-        name: req.body.name,
-        room: req.body.room,
-        patientID: patientID.toLowerCase().replace(" ",""),
-        email: req.body.email,
-        phone: req.body.phone,
-        age: req.body.age,
-        bed: req.body.bed,
-        mainPhone: req.body.mainPhone,
-        mainName: req.body.mainName,
-        cameraID: Math.floor(1),
-        relatives: req.body.relatives
-      });
-     
 
-      patientMap.save((err, data) => {
-        sendToPage(
-          err,
-          data,
-          req,
-          res,
-          "AdminDashboard/addPatients"
-        )
-      
-    });
-    var finalUser = req.body.patientID + "@" + parseInt(req.body.mainPhone+".0").toString(36);
-    var password = Math.floor(Math.random() * 9999 + 1) 
-    sendSms(req.body.mainPhone, finalUser, password);
-  
-}
+  const patientMap = new Patient({
+    name: req.body.name,
+    room: req.body.room,
+    patientID: patientID.toLowerCase().replace(" ", ""),
+    email: req.body.email,
+    phone: req.body.phone,
+    age: req.body.age,
+    bed: req.body.bed,
+    mainPhone: req.body.mainPhone,
+    mainName: req.body.mainName,
+    cameraID: Math.floor(1),
+    relatives: req.body.relatives
+  });
+
+  patientMap.save((err, data) => {
+    sendToPage(err, data, req, res, "AdminDashboard/addPatients");
+  });
+  var finalUser =
+    req.body.patientID + "@" + parseInt(req.body.mainPhone + ".0").toString(36);
+  var password = Math.floor(Math.random() * 9999 + 1);
+  sendSms(req.body.mainPhone, finalUser, password);
+};
 
 //Misc functions
 function sendRep(err, data, req, res) {
@@ -181,11 +172,10 @@ function logs2(err, data) {
 }
 
 function sendSms(mobile, user, password) {
-
   var url = "http://api.msg91.com/api/sendhttp.php";
   logs("Message sent to: " + mobile);
   var message =
-    "You have been registered for I-SEE-U Facility at Apollo Hospitals\nUsername:" +
+    "You have been registered for Streaming Facility at Apollo Hospitals\nUsername:" +
     user +
     "\nPassword:" +
     password;
@@ -210,11 +200,22 @@ function sendSms(mobile, user, password) {
     });
 }
 
-function sendSmsOTP(mobile, otp, from, otp) {
+function sendSmsOTP(mobile, fromMobile, from, otp, patientID) {
+  Patient.findOneAndUpdate(
+    { patientID: patientID, "relatives.phone": fromMobile },
+    { $set: { "relatives.$.otp": Math.floor(Math.random() * 9999 + 1000) } },
+    (err, data) => {
+      logs("Camera " + cameraID + " disabled");
+      // sendRep(err, data, req, res);
+      writeFM2();
+    }
+  );
   message =
     "Your assoicate " +
     from +
-    " wants to view the stream.\nTo allow access, please ask them to enter the\nOTP: ";
+    " wants to view the stream with mobile no " +
+    fromMobile +
+    "\nTo allow access, please ask them to enter the\nOTP: ";
 
   var url = "http://api.msg91.com/api/sendhttp.php";
 
