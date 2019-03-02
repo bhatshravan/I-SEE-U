@@ -35,7 +35,7 @@ exports.login = (req, res) => {
   var users = user.split("@");
   var PatientID = "";
 
-  //Miriam Mcgee , Quisquam@46mu7zr , zilxzb
+  //Miriam Mcgee , Autexpl@46mu7zr , pbkcet
   var finalPhone = parseInt(users[1], 36);
   var flag = false;
   Patient.findOne({ patientID: users[0] }, (err, data) => {
@@ -46,15 +46,21 @@ exports.login = (req, res) => {
         var relatives = data.relatives;
         for (i in relatives) {
           if (relatives[i].phone == finalPhone && i != "_parent") {
-            console.log(relatives[i]);
             flag = true;
-            console.log(relatives[i].password);
+            console.log(
+              "Log in to user: " +
+                data.patientID +
+                "\nby relative:" +
+                relatives[i].phone +
+                "\n"
+            );
             bcrypt.compare(password, relatives[i].password, (err, result) => {
               if (result === true) {
                 res.status(200).json({
+                  Success: true,
                   patientID: data.patientID,
                   cameraID: data.cameraID,
-                  phone: relatives[i].phone
+                  phone: finalPhone
                 });
               } else {
                 res

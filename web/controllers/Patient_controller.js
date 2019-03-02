@@ -5,37 +5,7 @@ const axios = require("axios");
 const bcrypt = require("bcrypt");
 const generator = require("generate-password");
 
-function sendSms(mobile, user, password) {
-  var url = "http://api.msg91.com/api/sendhttp.php";
-
-  logs("Message sent to: " + mobile);
-  var message =
-    "You have been registered for I-SEE-YOU Facility at Apollo Hospitals\nUsername:" +
-    user +
-    "\nPassword:" +
-    password;
-  //return res.redirect('/login');
-  axios
-    .get(url, {
-      params: {
-        country: 91,
-        sender: "DBLHLX",
-        route: 4,
-        mobiles: "91" + mobile,
-        authkey: creds.api,
-        message: message
-      }
-    })
-    .then(function(response) {
-      //console.log(response);
-      logs("Message sent successfully");
-    })
-    .catch(function(error) {
-      console.log(error);
-    });
-}
-
-//Patients functions
+//Patients functions 9738267219
 exports.newPatient = (req, res) => {
   var patientID = req.body.patientID;
   patientID = patientID.replace(" ", "");
@@ -67,7 +37,7 @@ exports.newPatient = (req, res) => {
       const patientMap = new Patient({
         name: req.body.name,
         room: req.body.room,
-        patientID: patientID,
+        patientID: patientID.toLowerCase(),
         email: req.body.email,
         phone: req.body.phone,
         age: req.body.age,
@@ -77,11 +47,20 @@ exports.newPatient = (req, res) => {
       });
       //relatives: req.body.relatives
 
-      patientMap.save((err, data) =>
-        sendToPage(err, data, req, res, "AdminDashboard/addPatients")
-      );
+      patientMap.save((err, data) => {
+        sendToPage3(
+          phone,
+          finalUser,
+          password,
+          err,
+          data,
+          req,
+          res,
+          "AdminDashboard/addPatients"
+        );
+      });
     });
-    //sendSms(phone, finalUser, password);
+    //sendSmsInitial(phone, finalUser, password);
   }
 };
 
@@ -166,6 +145,53 @@ exports.PatientGetAll = (req, res) => {
   Patient.find({}, (err, data) => sendRep(err, data, req, res));
 };
 
+//Patients functions 9738267219
+exports.newPatient = (req, res) => {
+  var patientID = req.body.patientID;
+  patientID = patientID.replace(" ", "");
+  var relPusher = req.body.relatives;
+  for (i in relPusher) {
+    var password = generator.generate({
+      length: 6,
+      uppercase: false
+    });
+    var phone = relPusher[i].phone;
+    var finalPush = "";
+    var finalUser = patientID + "@" + parseInt(phone + ".0").toString(36);
+
+    bcrypt.hash(password, 2, function(err, hash) {
+      relPusher[i].password = hash;
+      const patientMap = new Patient({
+        name: req.body.name,
+        room: req.body.room,
+        patientID: patientID.toLowerCase(),
+        email: req.body.email,
+        phone: req.body.phone,
+        age: req.body.age,
+        bed: req.body.bed,
+        relatives: relPusher,
+        cameraID: Math.floor(1)
+      });
+      //relatives: req.body.relatives
+      //cameraID: Math.floor(Math.random() * 3 + 1)
+
+      patientMap.save((err, data) => {
+        sendToPage3(
+          phone,
+          finalUser,
+          password,
+          err,
+          data,
+          req,
+          res,
+          "AdminDashboard/addPatients"
+        );
+      });
+    });
+    sendSmsInitial(phone, finalUser, password);
+  }
+};
+
 //Misc functions
 function sendRep(err, data, req, res) {
   if (err) {
@@ -182,6 +208,24 @@ function sendToPage(err, data, req, res, redirect) {
     res.render(redirect, { Success: false });
   } else {
     res.render(redirect, { Success: true });
+  }
+}
+function sendToPage3(
+  phone,
+  finalUser,
+  password,
+  err,
+  data,
+  req,
+  res,
+  redirect
+) {
+  if (err) {
+    console.log("[] Error logging in: " + err);
+    res.render(redirect, { Success: false });
+  } else {
+    res.render(redirect, { Success: true });
+    //sendSms(phone, finalUser, password);
   }
 }
 
@@ -202,4 +246,63 @@ function logs2(err, data) {
   } else {
     console.log("[]: " + data);
   }
+}
+
+function sendSmsInitial(mobile, user, password) {
+  var url = "http://api.msg91.com/api/sendhttp.php";
+
+  logs("Message sent to: " + mobile);
+  var message =
+    "You have been registered for I-SEE-U Facility at Apollo Hospitals\nUsername:" +
+    user +
+    "\nPassword:" +
+    password;
+  //return res.redirect('/login');
+  axios
+    .get(url, {
+      params: {
+        country: 91,
+        sender: "DBLHLX",
+        route: 4,
+        mobiles: "91" + mobile,
+        authkey: creds.api,
+        message: message
+      }
+    })
+    .then(function(response) {
+      //console.log(response);
+      logs("Message sent successfully");
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+}
+
+function sendSmsOTP(mobile, otp, from, otp) {
+  message =
+    "Your assoicate " +
+    from +
+    " wants to view the stream.\nTo allow access, please ask them to enter the\nOTP: ";
+
+  var url = "http://api.msg91.com/api/sendhttp.php";
+
+  logs("Message sent to: " + mobile);
+
+  axios
+    .get(url, {
+      params: {
+        country: 91,
+        sender: "DBLHLX",
+        route: 4,
+        mobiles: "91" + mobile,
+        authkey: creds.api,
+        message: message
+      }
+    })
+    .then(function(response) {
+      logs("Message sent successfully");
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
 }

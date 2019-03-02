@@ -45,18 +45,19 @@ function getRandomInt(max) {
 }
 
 exports.cameraUpdate = (req, res) => {
-  Camera.findOneAndUpdate(req.body.cameraID, { $set: req.body }, (err, data) =>
-    sendRep(err, data, req, res)
+  Camera.findOneAndUpdate(
+    req.params.cameraID,
+    { $set: req.body },
+    (err, data) => sendRep(err, data, req, res)
   );
 };
-
 exports.cameraGet = (req, res) => {
   Camera.find({ cameraID: req.body.cameraID }, (err, data) =>
     sendRep(err, data, req, res)
   );
 };
 exports.cameraGetAll = (req, res) => {
-  Camera.find((err, data) => sendRep(err, data, req, res));
+  Camera.find({}, (err, data) => sendRep(err, data, req, res));
 };
 
 exports.cameraRemove = (req, res) => {

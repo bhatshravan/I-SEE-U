@@ -21,3 +21,7 @@ exports.stream = (req, res) => {
     });
   };
 };
+
+exports.checkIfStreamEnabled = (req, res) => {
+  Camera.findOne({ cameraID: req.query.camera }, (err, data) => {});
+};

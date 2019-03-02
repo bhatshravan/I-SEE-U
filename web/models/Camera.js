@@ -2,8 +2,7 @@ var mongoose = require("mongoose");
 var CameraSchema = new mongoose.Schema({
   cameraID: {
     type: String,
-    required: true,
-    unique: true
+    required: true
   },
   cameraUrl: {
     type: String,
@@ -20,11 +19,11 @@ var CameraSchema = new mongoose.Schema({
   },
   patientID: {
     type: String
-},
-status:{
+  },
+  status: {
     type: String,
     default: "enabled"
-}
+  }
 });
 
 var Camera = mongoose.model("Camera", CameraSchema);
