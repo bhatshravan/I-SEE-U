@@ -1,3 +1,3 @@
-camstream1,172.16.100.221,streamcam1,enabled
+camstream1,192.168.43.33:8080/video,streamcam1,enabled
 camstream2,890,streamcam2,disabled
-camstream3,817,streamcam3,enabled
+camstream3,817,streamcam3,disabled

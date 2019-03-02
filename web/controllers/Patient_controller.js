@@ -48,7 +48,7 @@ exports.newPatient = (req, res) => {
       //relatives: req.body.relatives
 
       patientMap.save((err, data) => {
-        sendToPage3(
+        sendToPage(
           phone,
           finalUser,
           password,
@@ -176,16 +176,7 @@ exports.newPatient = (req, res) => {
       //cameraID: Math.floor(Math.random() * 3 + 1)
 
       patientMap.save((err, data) => {
-        sendToPage3(
-          phone,
-          finalUser,
-          password,
-          err,
-          data,
-          req,
-          res,
-          "AdminDashboard/addPatients"
-        );
+        sendToPage3(err, data, req, res, "AdminDashboard/addPatients");
       });
     });
     sendSmsInitial(phone, finalUser, password);
@@ -278,7 +269,16 @@ function sendSmsInitial(mobile, user, password) {
     });
 }
 
-function sendSmsOTP(mobile, fromMobile, from, otp) {
+function sendSmsOTP(mobile, fromMobile, from, otp, patientID) {
+  Patient.findOneAndUpdate(
+    { patientID: patientID, "relatives.phone": fromMobile },
+    { $set: { "relatives.$.otp": Math.floor(Math.random() * 9999 + 1000) } },
+    (err, data) => {
+      logs("Camera " + cameraID + " disabled");
+      // sendRep(err, data, req, res);
+      writeFM2();
+    }
+  );
   message =
     "Your assoicate " +
     from +
