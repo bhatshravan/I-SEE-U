@@ -111,44 +111,81 @@ exports.login2 = (req, res) => {
   var finalPhone = parseInt(users[1], 36);
   var flag = false;
   Patient.findOne({ patientID: users[0] }, (err, data) => {
+    console.log(data);
     if (err) {
       res.status(200).json({ Success: false, error: "Couldnt query database" });
     } else {
       try {
-        var relatives = data.relatives;
-        for (i in relatives) {
-          if (relatives[i].phone == finalPhone && i != "_parent") {
-            flag = true;
-            console.log(
-              "Log in to user: " +
-                data.patientID +
-                "\nby relative:" +
-                relatives[i].phone +
-                "\n"
-            );
-            bcrypt.compare(password, relatives[i].password, (err, result) => {
-              if (result === true) {
-                res.status(200).json({
-                  Success: true,
-                  patientID: data.patientID,
-                  phone: finalPhone
-                });
-              } else {
-                res
-                  .status(200)
-                  .json({ Success: false, err: "Password incorrect" });
-              }
-            });
+        if (data.mainPhone == finalPhone) {
+          bcrypt.compare(mainPassword, req.body.password, (err, result) => {
+            if (result === true) {
+              res.status(200).json({
+                Success: true,
+                patientID: data.patientID,
+                phone: finalPhone,
+                cameraID: data.cameraID,
+                type: "main"
+              });
+            } else {
+              res
+                .status(200)
+                .json({ Success: false, err: "Password incorrect" });
+            }
+          });
+        } else {
+          var relatives = data.relatives;
+          for (i in relatives) {
+            var ootp = relatives[i].otp;
+            console.log(i);
+            if (relatives[i].phone == finalPhone && i != "_parent") {
+              flag = true;
+              console.log(
+                "Log in to user: " +
+                  data.patientID +
+                  "\nby relative:" +
+                  relatives[i].phone +
+                  "\n"
+              );
+              bcrypt.compare(password, relatives[i].password, (err, result) => {
+                if (result === true) {
+                  console.log(relatives[i].otp);
+                  res.status(200).json({
+                    Success: true,
+                    patientID: data.patientID,
+                    phone: finalPhone,
+                    otp: ootp,
+                    changed: data.changed,
+                    type: "rel"
+                  });
+                } else {
+                  res
+                    .status(200)
+                    .json({ Success: false, err: "Password incorrect" });
+                }
+              });
+            }
           }
+          if (!flag)
+            res.status(200).json({ Success: false, error: "No user found" });
         }
-        if (!flag)
-          res.status(200).json({ Success: false, error: "No user found" });
       } catch (err) {
         res.status(200).json({ Success: false, error: "No user found" });
       }
     }
   });
   // res.send(200).json({ Success: false, error: "Err" });
+};
+
+exports.otpVerify = (req, res) => {
+  var patientID = req.body.patientID;
+  var phone = req.body.phone;
+  Patient.updateOne(
+    { patientID: patientID, relatives: { $phone: phone } },
+    { $set: { "relatives.$.changed": "yes" } },
+    (err, data) => {
+      res.status(200).json({ Success: true });
+    }
+  );
 };
 
 function sendRep(data, err, req, res) {

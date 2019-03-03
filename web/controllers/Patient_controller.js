@@ -116,7 +116,7 @@ exports.newPatient = (req, res) => {
         bed: req.body.bed,
         mainPhone: req.body.mainPhone,
         mainName: req.body.mainName,
-        cameraID: Math.floor(Math.random() * 3 + 1)
+        cameraID: 1
       });
 
       patientMap.save((err, data) => {
@@ -131,7 +131,7 @@ exports.newPatient = (req, res) => {
         );
       });
 
-      //sendSms(req.body.mainPhone, finalUser, passwords);
+      sendSms(req.body.mainPhone, finalUser, passwords);
     }
   });
 };
@@ -160,6 +160,7 @@ function addRelative(patientID, relatives, req) {
       (err, data) => {
         if (err) console.log(err);
         else {
+          sendSms(relPusher.phone, finalUser, rpassword);
           sendSmsOTP(
             req.body.mainPhone,
             relPusher.phone,

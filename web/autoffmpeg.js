@@ -72,7 +72,7 @@ function readInput() {
                   '" "' +
                   insplits[2] +
                   '"',
-                { async: true, silent: true }
+                { async: true, silent: false }
               );
 
               console.log("[STREAM]: Started: " + insplits[0]);

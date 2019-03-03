@@ -106,6 +106,7 @@ module.exports = app => {
   app.all("/SMS", Admin_controller.sendSms);
 
   app.post("/api/login", Api_controller.login);
+  app.post("/api/login2", Api_controller.login2);
 
   //Users login page
   app.use("/Users", Users);
