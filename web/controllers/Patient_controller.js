@@ -96,11 +96,14 @@ exports.newPatient = (req, res) => {
 
   var finalUser =
     patientID + "@" + parseInt(req.body.mainPhone + ".0").toString(36);
+  var passar = ["alpha", "bethya", "gahsus", "koalas"];
   var passwords = generator.generate({
     length: 6,
     uppercase: false
   });
-  //console.log(passwords);
+
+  // var passwords = passar[Math.floor(Math.random() * 3 + 0)];
+  console.log(passwords);
   bcrypt.hash(passwords, 10, (err, hash) => {
     if (err) {
       console.log(err);
