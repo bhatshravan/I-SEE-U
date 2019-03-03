@@ -116,51 +116,69 @@ exports.newPatient = (req, res) => {
         bed: req.body.bed,
         mainPhone: req.body.mainPhone,
         mainName: req.body.mainName,
-        cameraID: Math.floor(Math.random() * 3 + 1),
-        relatives: req.body.relatives
+        cameraID: Math.floor(Math.random() * 3 + 1)
       });
 
       patientMap.save((err, data) => {
         console.log(finalUser + " , " + passwords);
-        for (i in req.body.relatives) {
-          console.log("[" + i + "]: " + relPusher[0].name);
-          //addRelative(relPusher[i]);
-        }
-        sendToPage(err, data, req, res, "AdminDashboard/addPatients");
+        sendToPage2(
+          patientID,
+          err,
+          data,
+          req,
+          res,
+          "AdminDashboard/addPatients"
+        );
       });
 
-      //sendSms(req.body.mainPhone, finalUser, password);
+      //sendSms(req.body.mainPhone, finalUser, passwords);
     }
   });
 };
-function addRelative(patientID, relatives) {
+function addRelative(patientID, relatives, req) {
   console.log(patientID + relatives);
   var relPusher = relatives;
-  var rpassword = generator.generateMultiple(3, {
+  var rpassword = generator.generate({
     length: 6,
     uppercase: false
   });
   var rotp = Math.floor(Math.random() * 99999 + 9999);
   var rphone = relatives.phone;
   var finalPush = "";
-  var rfinalUser = patientID + "@" + parseInt(rphone + ".0").toString(36);
+  var finalUser = patientID + "@" + parseInt(rphone + ".0").toString(36);
 
-  console.log(relPusher.name + " , " + finalUser + " , " + password + "\n");
+  console.log(relPusher.name + " , " + finalUser + " , " + rpassword + "\n");
 
   bcrypt.hash(rpassword, 5, function(err, hash2) {
     relPusher.password = hash2;
     relPusher.otp = rotp;
-    console.log(relPusher);
 
     Patient.findOneAndUpdate(
       { patientID: patientID },
       { $push: { relatives: relPusher } },
       { new: true },
-      (err, data) => sendRep(err, data, req, res)
+      (err, data) => {
+        if (err) console.log(err);
+        else {
+          sendSmsOTP(
+            req.body.mainPhone,
+            relPusher.phone,
+            relPusher.name,
+            rotp,
+            patientID
+          );
+        }
+      }
     );
   });
-  res.status(200).json({ suc: true });
 }
+exports.test3 = (req, res) => {
+  sendSmsOTP("9108287991", "9449084477", "Shravan", "1098", "165");
+};
+exports.validateMain = (req, res) => {
+  var patientID = req.body.patientID;
+  Patient.find({ patientID: req.body.patientID }, (err, data) => {});
+};
 
 //Misc functions
 function sendRep(err, data, req, res) {
@@ -191,7 +209,7 @@ function sendToPage2(patientID, err, data, req, res, redirect) {
 
     for (i in relPusher) {
       console.log("[REL]: " + relPusher[i]);
-      addRelative(relPusher[i]);
+      addRelative(patientID, relPusher[i], req);
     }
 
     res.render(redirect, { Success: true });
@@ -247,21 +265,13 @@ function sendSms(mobile, user, password) {
 }
 
 function sendSmsOTP(mobile, fromMobile, from, otp, patientID) {
-  Patient.findOneAndUpdate(
-    { patientID: patientID, "relatives.phone": fromMobile },
-    { $set: { "relatives.$.otp": Math.floor(Math.random() * 9999 + 1000) } },
-    (err, data) => {
-      logs("Camera " + cameraID + " disabled");
-      // sendRep(err, data, req, res);
-      writeFM2();
-    }
-  );
   message =
     "Your assoicate " +
     from +
     " wants to view the stream with mobile no " +
     fromMobile +
-    "\nTo allow access, please ask them to enter the\nOTP: ";
+    "\nTo allow access, please ask them to enter the\nOTP: " +
+    otp;
 
   var url = "http://api.msg91.com/api/sendhttp.php";
 

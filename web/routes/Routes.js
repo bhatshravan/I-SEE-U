@@ -67,6 +67,8 @@ module.exports = app => {
 
   app.get("/AdminDashboard/changeStream", Admin_controller.changeStream);
 
+  app.get("/Test", Patient_controller.test3);
+
   app.use("/AdminDashboard", Patient);
   Patient.post("/newPatient", Patient_controller.newPatient);
   Patient.post("/newRelative", Patient_controller.newRelative);
@@ -97,8 +99,8 @@ module.exports = app => {
     res.render("PatientDashboard/pricing");
   });
 
-  app.get("/ICUDashboard/index", (req, res) => {
-    res.render("ICUDashboard/index");
+  app.get("/ICUDashboard/", (req, res) => {
+    res.render("ICUDashboard/patients");
   });
 
   app.get("/ICUDashboard/", (req, res) => {
