@@ -9,6 +9,8 @@ var os = require("os-utils");
 const Camera = require("../models/Camera");
 const Patients = require("../models/Patient");
 
+const shell = require("shelljs");
+
 const authError = (err, req, res, next) => {
   return res.status(401).json({ success: false, message: "unauthorized" });
   //return res.redirect('/login.html');
@@ -90,9 +92,19 @@ module.exports = app => {
   app.get("/PatientDashboard/bestWishes", (req, res) => {
     res.render("PatientDashboard/bestWishes");
   });
+  app.get("/PatientDashboard/payment", (req, res) => {
+    res.render("PatientDashboard/payment");
+  });
+  app.get("/PatientDashboard/pricing", (req, res) => {
+    res.render("PatientDashboard/pricing");
+  });
 
-  app.get("/ICUDashboard/index", (req, res) => {
-    res.render("ICUDashboard/index");
+  app.get("/ICUDashboard/", (req, res) => {
+    res.render("ICUDashboard/patients");
+  });
+
+  app.get("/ICUDashboard/", (req, res) => {
+    res.render("ICUDashboard/patients");
   });
 
   app.get("/ICUDashboard/patients", (req, res) => {
@@ -102,6 +114,15 @@ module.exports = app => {
   app.get("/ICUDashboard/stream", (req, res) => {
     res.render("ICUDashboard/stream");
   });
+
+  app.get("/ICUDashboard/profile", (req, res) => {
+    res.render("ICUDashboard/profile");
+  });
+
+  app.get("/ICUDashboard/calender", (req, res) => {
+    res.render("ICUDashboard/calender");
+  });
+
 
   app.all("/SMS", Admin_controller.sendSms);
 
@@ -133,7 +154,17 @@ module.exports = app => {
   Admin.post("/CamRemove", Admin_controller.cameraRemove);
   Admin.get("/TestStream", Admin_controller.test);
 
+
+  app.use("/stopStream", (req,res) => {
+    shell.exec('mv ../views/video/playlist/playlist.m3u8 ../views/video/playlist/playlist2.m3u8'),
+    res.redirect("/ICUDashboard/stream");;
+    //jwplayer().stop()
+  });
+app.use("/startStream", (req,res) => {
+  shell.exec('mv ../views/video/playlist/playlist2.m3u8 ../views/video/playlist/playlist.m3u8'),
+  res.redirect("/ICUDashboard/stream");
   //Patient
+});
 
   //Error page
   app.get("*", (req, res) => {

@@ -86,7 +86,7 @@ function readInput() {
     });
   } catch (err0) {}
 }
-setInterval(readInput, 1 * 1000);
+setInterval(readInput, 3 * 1000);
 readInput();
 
 function stopItnow(i) {
