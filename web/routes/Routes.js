@@ -94,7 +94,7 @@ module.exports = app => {
   });
 
   app.get("/ICUDashboard/", (req, res) => {
-    res.render("ICUDashboard/index");
+    res.render("ICUDashboard/patients");
   });
 
   app.get("/ICUDashboard/patients", (req, res) => {

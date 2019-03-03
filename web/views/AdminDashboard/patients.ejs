@@ -64,7 +64,7 @@
                         <td><%= patients[i].room%></td>
                         <td>
                         <!--href="../Patient/removePatient?patientID=<%= patients[i].patientID%>"-->
-                          <a href="removePatient?patientID=<%= patients[i]._id%>" class="btn btn-danger btn-icon btn-block btn-sm" >
+                          <a href="removePatient?patientID=<%= patients[i]._id%>" class="btn btn-danger btn-icon btn-block" >
                             <span class="icon text-white-50">
                               <i class="fa fa-trash"></i>
                             </span>
@@ -73,7 +73,7 @@
                         </td>
                         <td>
                         <!--href="../Patient/removePatient?patientID=<%= patients[i].patientID%>"-->
-                          <a href="/video/stream.html?c=<%= patients[i].cameraID %>" target="_blank" class="btn btn-primary btn-sm btn-block" >
+                          <a href="/video/stream.html?c=<%= patients[i].cameraID %>" target="_blank" class="btn btn-primary btn-block" >
                             <span class="icon text-white-50">
                               <i class="fa fa-eye"></i>
                             </span>
@@ -82,14 +82,14 @@
                         </td>
                         <td>
                             <% if(camera[patients[i].cameraID]=="disabled"){ %>
-                           <a href="changeStream?cameraID=<%= patients[i].cameraID%>&status=enable" class="btn btn-success btn-sm btn-block" >
+                           <a href="changeStream?cameraID=<%= patients[i].cameraID%>&status=enable" class="btn btn-success btn-block" >
                             <span class="icon text-white-50">
                               <i class="fa fa-play"></i>
                             </span>
                             <span class="text">Enable</span>
                           </a>
                           <% } else{ %>
-                              <a href="changeStream?cameraID=<%= patients[i].cameraID%>&status=disable" class="btn btn-danger btn-sm btn-block" >
+                              <a href="changeStream?cameraID=<%= patients[i].cameraID%>&status=disable" class="btn btn-danger btn-block" >
                                <span class="icon text-white-50">
                                  <i class="fa fa-stop"></i>
                                </span>
