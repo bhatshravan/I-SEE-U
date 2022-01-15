@@ -34,7 +34,7 @@
     "nodemon": "^1.18.10",
     "notp": "^2.0.3",
     "os-utils": "0.0.14",
-    "shelljs": "^0.8.3",
+    "shelljs": "^0.8.5",
     "thirty-two": "^1.0.2"
   },
   "devDependencies": {
